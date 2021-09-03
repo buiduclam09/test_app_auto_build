@@ -80,6 +80,10 @@ abstract class BaseRecyclerViewAdapter<T, V : RecyclerView.ViewHolder>(
         notifyItemInserted(position)
     }
 
+    fun removeItemNoNotify(position: Int) {
+        dataList.removeAt(position)
+    }
+
     fun removeItem(position: Int, isNotifyAll: Boolean = false) {
         if (position < 0 || position >= dataList.size) {
             return

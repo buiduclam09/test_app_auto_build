@@ -3,6 +3,8 @@ package com.wakeup.hyperion.ui.introduce.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.thuanpx.ktext.view.gone
+import com.thuanpx.ktext.view.show
 import com.wakeup.hyperion.databinding.ItemIntroduceBinding
 import com.wakeup.hyperion.model.entity.IntroduceModel
 

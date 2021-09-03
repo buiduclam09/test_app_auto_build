@@ -1,11 +1,13 @@
 package com.wakeup.hyperion.ui.main
 
+import androidx.lifecycle.viewModelScope
 import com.wakeup.hyperion.common.base.BaseViewModel
-import androidx.hilt.lifecycle.ViewModelInject
-import com.wakeup.hyperion.data.repository.DefaultSharedPrefsRepository
 import com.wakeup.hyperion.data.repository.SharedPrefsRepository
+import com.wakeup.hyperion.model.entity.SignalLocalModel
 import com.wakeup.hyperion.utils.liveData.SingleLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -16,8 +18,34 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val sharedPrefsRepository: SharedPrefsRepository
 ) : BaseViewModel() {
-
+    val listAudio = mutableListOf<String>()
     val updateVolume = SingleLiveData<Unit>()
+    val addNewSongFlow = MutableSharedFlow<Boolean>()
+    val updateTabFlow = MutableSharedFlow<Boolean>()
+    val signalLocalModel: SignalLocalModel?
+        get() = sharedPrefsRepository.getSignalSound()
+
     val signal: String
         get() = sharedPrefsRepository.getSignal()
+
+    fun getListPath() {
+        sharedPrefsRepository.getListPath()?.let {
+            listAudio.clear()
+            listAudio.addAll(it)
+        }
+    }
+
+    fun saveListUriAudio(list: MutableList<String>) {
+        sharedPrefsRepository.clearListPath()
+        sharedPrefsRepository.saveListPath(list)
+    }
+
+    fun saveSignalSound(signal: SignalLocalModel) {
+        sharedPrefsRepository.saveSignalSound(signal)
+        viewModelScope.launch {
+            updateTabFlow.emit(!signal.isBasic)
+        }
+    }
+
+    fun clearSignalSound() = sharedPrefsRepository.clearSignalSound()
 }

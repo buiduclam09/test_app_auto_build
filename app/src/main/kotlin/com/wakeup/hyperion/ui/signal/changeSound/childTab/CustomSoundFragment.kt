@@ -1,22 +1,49 @@
 package com.wakeup.hyperion.ui.signal.changeSound.childTab
 
+import android.Manifest
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.thuanpx.ktext.boolean.isNotTrue
+import com.thuanpx.ktext.boolean.isTrue
+import com.thuanpx.ktext.view.gone
+import com.thuanpx.ktext.view.show
+import com.wakeup.hyperion.R
+import com.wakeup.hyperion.common.Constant
+import com.wakeup.hyperion.common.Constant.TYPE_DELETE
+import com.wakeup.hyperion.common.Constant.TYPE_SELECTED
 import com.wakeup.hyperion.common.base.BaseFragment
 import com.wakeup.hyperion.databinding.FragmentCustomSoundBinding
-import com.wakeup.hyperion.model.entity.SoundModel
+import com.wakeup.hyperion.model.entity.SignalLocalModel
+import com.wakeup.hyperion.ui.main.MainService
+import com.wakeup.hyperion.ui.main.MainViewModel
 import com.wakeup.hyperion.ui.signal.SignalViewModel
 import com.wakeup.hyperion.ui.signal.changeSound.adapter.CustomSoundAdapter
+import com.wakeup.hyperion.utils.PermissionUtils.checkPermissionReadStorage
+import com.wakeup.hyperion.utils.ResourcesManager
+import com.wakeup.hyperion.utils.extension.clicks
+import com.wakeup.hyperion.dialogManager.DialogAlert
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CustomSoundFragment :
     BaseFragment<SignalViewModel, FragmentCustomSoundBinding>(SignalViewModel::class) {
-    private lateinit var customSoundAdapter: CustomSoundAdapter
+    private val sharedViewModel by activityViewModels<MainViewModel>()
+    private var customSoundAdapter: CustomSoundAdapter? = null
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     companion object {
         fun newInstance() = CustomSoundFragment()
+        const val REQUEST_CODE = 1006
     }
 
     override fun inflateViewBinding(
@@ -28,26 +55,136 @@ class CustomSoundFragment :
 
     override fun initialize() {
         initAdapter()
+        handleOnclick()
+    }
+
+    override fun onSubscribeObserver() {
+        super.onSubscribeObserver()
+        lifecycleScope.launch {
+            sharedViewModel.updateTabFlow.collect {
+                if (!it) {
+                    removeAllSelected()
+                }
+            }
+        }
+        lifecycleScope.launch {
+            sharedViewModel.addNewSongFlow.collect {
+                initData()
+                customSoundAdapter?.notifyDataSetChanged()
+                checkSignalSelected()
+            }
+        }
     }
 
     private fun initAdapter() {
-        customSoundAdapter = CustomSoundAdapter()
-        customSoundAdapter.replaceData(numpyData())
+        customSoundAdapter =
+            CustomSoundAdapter() { type: String, signalLocalModel: SignalLocalModel, position: Int ->
+                if (type == TYPE_SELECTED) {
+                    customSoundAdapter?.getData()?.forEach {
+                        it.isSelected = false
+                    }
+                    signalLocalModel.isSelected = true
+                    sharedViewModel.saveSignalSound(signalLocalModel)
+                    activity?.stopService(Intent(requireContext(), MainService::class.java))
+                    activity?.startService(Intent(requireContext(), MainService::class.java).apply {
+                        putExtra(Constant.EXTRA_SIGNAL, sharedViewModel.signal)
+                        putExtra(Constant.EXTRA_SIGNAL_MODEL, sharedViewModel.signalLocalModel)
+                    })
+                } else if (type == TYPE_DELETE) {
+                    run checkSignal@{
+                        customSoundAdapter?.getData()?.forEachIndexed { index, it ->
+                            if (it == signalLocalModel) {
+                                customSoundAdapter?.removeItemNoNotify(index)
+                                sharedViewModel.listAudio.removeAt(index)
+                                sharedViewModel.saveListUriAudio(sharedViewModel.listAudio)
+                                if (sharedViewModel.signalLocalModel?.isBasic.isNotTrue() &&
+                                    sharedViewModel.signalLocalModel?.path == it.path
+                                ) {
+                                    sharedViewModel.clearSignalSound()
+                                }
+                                return@checkSignal
+                            }
+                        }
+                    }
+                }
+                customSoundAdapter?.notifyDataSetChanged()
+            }
+        initData()
         with(viewBinding.rvCustomSound) {
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
             adapter = customSoundAdapter
         }
+        checkSignalSelected()
     }
 
-    private fun numpyData(): ArrayList<SoundModel> {
-        val listSound = ArrayList<SoundModel>()
-        listSound.add(SoundModel("1", "sound 111"))
-        listSound.add(SoundModel("2", "sound 2222"))
-        listSound.add(SoundModel("3", "sound 3333"))
-        listSound.add(SoundModel("4", "sound 4444"))
-        listSound.add(SoundModel("5", "sound 555"))
-        listSound.add(SoundModel("6", "sound 6555"))
-        return listSound
+    private fun checkSignalSelected() {
+        Handler(Looper.getMainLooper()).post {
+            sharedViewModel.signalLocalModel?.let { signal ->
+                if (signal.isBasic.isTrue()) {
+                    return@let
+                }
+                customSoundAdapter?.getData()?.forEach {
+                    if (it.name == signal.name) {
+                        it.isSelected = true
+                        customSoundAdapter?.notifyDataSetChanged()
+                        return@let
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleOnclick() {
+        with(viewBinding) {
+            btnAddSound.clicks {
+                if (checkPermissionReadStorage(requireContext())) {
+                    val intent = Intent(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                        )
+                    )
+                    getMainActivity()?.startActivityForResult(
+                        Intent.createChooser(intent, "Gallery"),
+                        REQUEST_CODE
+                    )
+                    return@clicks
+                }
+                showAlertDialog(
+                    title = "",
+                    message = resources.getString(R.string.text_notification_permission_read_file),
+                    titleButton = "",
+                    listener = object : DialogAlert.Companion.OnButtonClickedListener {
+                        override fun onPositiveClicked() {
+                            requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        }
+                    }
+                )
+            }
+        }
+    }
+
+    private fun removeAllSelected() {
+        customSoundAdapter?.getData()?.forEach {
+            it.isSelected = false
+        }
+        customSoundAdapter?.notifyDataSetChanged()
+    }
+
+    private fun initData() {
+        if (sharedViewModel.listAudio.isNotEmpty()) {
+            customSoundAdapter?.replaceData(
+                ResourcesManager.createListAudioFromListUri(
+                    sharedViewModel.listAudio,
+                    requireContext()
+                )
+            )
+            viewBinding.rvCustomSound.show()
+            viewBinding.tvNotification.gone()
+        } else {
+            viewBinding.tvNotification.show()
+            viewBinding.rvCustomSound.gone()
+        }
     }
 }

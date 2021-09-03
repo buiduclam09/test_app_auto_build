@@ -8,17 +8,10 @@
         android:name="com.wakeup.hyperion.ui.signal.currentSignal.CurrentSignalFragment"
         android:label="CurrentSignalFragment">
         <action
-            android:id="@+id/actionCurrentSignalFragmentToSignalFragment"
-            app:destination="@id/signalFragment" />
-        <action
             android:id="@+id/actionCurrentSignalFragmentToChangeSoundFragment"
             app:destination="@id/changeSoundFragment" />
     </fragment>
 
-    <fragment
-        android:id="@+id/signalFragment"
-        android:name="com.wakeup.hyperion.ui.signal.SignalFragment"
-        android:label="SignalFragment" />
     <fragment
         android:id="@+id/changeSoundFragment"
         android:name="com.wakeup.hyperion.ui.signal.changeSound.ChangeSoundFragment"

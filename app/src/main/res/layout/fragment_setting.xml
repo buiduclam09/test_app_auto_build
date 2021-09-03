@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/C_E6EBEF">
@@ -26,6 +26,7 @@
             android:text="@string/language"
             android:textColor="@color/C_8397AF"
             android:textSize="@dimen/sp_16"
+            app:fontFamily="@font/gtwalsheimpro_500"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -36,10 +37,11 @@
             android:layout_marginStart="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginEnd="@dimen/dp_20"
-            android:background="@drawable/setting_bg_spinner"
+            android:fontFamily="@font/gtwalsheimpro_500"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvLanguage"
+            app:ms_background_selector="@drawable/setting_bg_spinner"
             app:ms_text_color="@color/colorPrimary" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,7 +71,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_20"
                 android:text="@string/ringtone_level"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/sp_18"
+                app:fontFamily="@font/gtwalsheimpro_500"
                 app:layout_constraintBottom_toBottomOf="@id/ivRingtone"
                 app:layout_constraintLeft_toRightOf="@id/ivRingtone"
                 app:layout_constraintTop_toTopOf="@id/ivRingtone" />
@@ -120,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_20"
                 android:text="@string/vibration_intensity"
+                android:fontFamily="@font/gtwalsheimpro_500"
                 android:textSize="@dimen/sp_18"
                 app:layout_constraintBottom_toBottomOf="@id/ivVibration"
                 app:layout_constraintLeft_toRightOf="@id/ivVibration"
@@ -161,12 +166,13 @@
                 android:layout_marginEnd="@dimen/dp_20"
                 android:text="@string/about_us"
                 android:textSize="@dimen/sp_24"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:fontFamily="@font/merriweather_bold" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
-                app:srcCompat="@drawable/ic_wake_up" />
+                app:srcCompat="@drawable/ic_where" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -181,7 +187,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clAboutUs"
             app:srcCompat="@drawable/ic_petal" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

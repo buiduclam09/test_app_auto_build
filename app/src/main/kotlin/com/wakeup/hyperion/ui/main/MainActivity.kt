@@ -2,48 +2,87 @@ package com.wakeup.hyperion.ui.main
 
 import android.Manifest
 import android.content.Intent
-import android.media.MediaPlayer
-import android.os.Bundle
-import android.speech.RecognitionListener
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
+import android.os.Handler
 import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import com.thuanpx.ktext.boolean.isTrue
 import com.thuanpx.ktext.view.gone
 import com.thuanpx.ktext.view.show
 import com.wakeup.hyperion.R
 import com.wakeup.hyperion.common.Constant
 import com.wakeup.hyperion.common.base.BaseActivity
 import com.wakeup.hyperion.databinding.ActivityMainBinding
+import com.wakeup.hyperion.ui.signal.changeSound.childTab.CustomSoundFragment.Companion.REQUEST_CODE
+import com.wakeup.hyperion.utils.FileUtils.getRealPathFromURI
+import com.wakeup.hyperion.utils.extension.setStatusBarColor
 import com.wakeup.hyperion.utils.extension.setupWithNavController
-import com.wakeup.hyperion.widget.dialogManager.DialogAlert
+import com.wakeup.hyperion.dialogManager.DialogAlert
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(MainViewModel::class) {
     private var currentNavController: LiveData<NavController>? = null
+    private var settingsContentObserver: SettingsContentObserver? = null
 
     private val requestPermission =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.entries.forEach {
+                if (!it.value) {
+                    showAlertDialog(
+                        title = "",
+                        message = resources.getString(R.string.text_notification_permission_record_audio),
+                        "",
+                        object : DialogAlert.Companion.OnButtonClickedListener {
+                            override fun onPositiveClicked() {
+                                finish()
+                            }
+                        }
+                    )
+                    return@registerForActivityResult
+                }
+            }
+            stopService(Intent(this, MainService::class.java))
+            startService(Intent(this, MainService::class.java).apply {
+                putExtra(Constant.EXTRA_SIGNAL, viewModel.signal)
+                putExtra(Constant.EXTRA_SIGNAL_MODEL, viewModel.signalLocalModel)
+            })
+        }
 
     override fun inflateViewBinding(inflater: LayoutInflater): ActivityMainBinding {
         return ActivityMainBinding.inflate(inflater)
     }
 
+    override fun onDestroy() {
+        settingsContentObserver?.let {
+            applicationContext.contentResolver.unregisterContentObserver(
+                it
+            )
+        }
+        super.onDestroy()
+    }
+
     override fun initialize() {
+        requestPermission.launch(
+            arrayOf(
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        )
+        viewModel.getListPath()
         setUpBottomNavigation()
-        requestPermission.launch(Manifest.permission.RECORD_AUDIO)
-        startService(Intent(this, MainService::class.java).apply {
-            putExtra(Constant.EXTRA_SIGNAL, viewModel.signal )
-        })
     }
 
     override fun onSubscribeObserver() {
         super.onSubscribeObserver()
+        settingsContentObserver = SettingsContentObserver(Handler()) {
+            viewModel.updateVolume.postValue(Unit)
+        }
+        applicationContext.contentResolver.registerContentObserver(
+            android.provider.Settings.System.CONTENT_URI, true, settingsContentObserver!!
+        )
     }
 
     fun showBottomNavigation() {
@@ -67,5 +106,46 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(MainViewMo
             intent = intent
         )
         currentNavController = controller
+        bottomNavigationView.itemIconTintList = null
+
+        currentNavController?.observe(this) {
+            if (it.currentDestination?.label == "SettingFragment") {
+                setStatusBarColor(R.color.C_E6EBEF)
+            } else {
+                setStatusBarColor(android.R.color.white)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE && data?.data != null) {
+            val audioSelect = data.data
+            val pathSelect = getRealPathFromURI(
+                this@MainActivity,
+                this@MainActivity.contentResolver,
+                audioSelect
+            )
+            //1.check path same trong list neu path khac thi add vao sharePrerence
+            with(viewModel) {
+                if (listAudio.size == 0) {
+                    pathSelect.let {
+                        listAudio.add(it)
+                        saveListUriAudio(listAudio)
+                    }
+                } else if (listAudio.size > 0) {
+                    pathSelect.let { path ->
+                        if (listAudio.contains(path)) {
+                            return
+                        }
+                        listAudio.add(path)
+                        saveListUriAudio(listAudio)
+                    }
+                }
+                lifecycleScope.launch {
+                    viewModel.addNewSongFlow.emit(true)
+                }
+            }
+        }
     }
 }

@@ -1,9 +1,13 @@
 package com.wakeup.hyperion.utils.extension
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
@@ -31,4 +35,13 @@ fun ImageView.loadImageUrl(url: String?) {
     Glide.with(context).load(url)
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(this)
+}
+
+fun FragmentActivity.setStatusBarColor(@ColorRes color: Int, isDarkColor: Boolean = false) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        window?.apply {
+            decorView.systemUiVisibility = if (isDarkColor) 0 else View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            statusBarColor = ContextCompat.getColor(context, color)
+        }
+    }
 }

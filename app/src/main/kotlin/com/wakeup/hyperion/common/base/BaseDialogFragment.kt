@@ -9,8 +9,8 @@ import androidx.fragment.app.createViewModelLazy
 import androidx.lifecycle.observe
 import androidx.viewbinding.ViewBinding
 import com.wakeup.hyperion.utils.extension.handleDefaultApiError
-import com.wakeup.hyperion.widget.dialogManager.DialogAlert
-import com.wakeup.hyperion.widget.dialogManager.DialogConfirm
+import com.wakeup.hyperion.dialogManager.DialogAlert
+import com.wakeup.hyperion.dialogManager.DialogConfirm
 import kotlin.reflect.KClass
 
 /**

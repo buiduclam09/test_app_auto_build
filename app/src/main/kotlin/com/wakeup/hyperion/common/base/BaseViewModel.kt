@@ -35,7 +35,7 @@ abstract class BaseViewModel : ViewModel() {
             when (val asynchronousTasks = onRequest(this)) {
                 is DataResult.Success -> {
                     onSuccess?.invoke(asynchronousTasks.data) ?: kotlin.run {
-                        liveData.value = asynchronousTasks.data!!
+                        liveData.value = asynchronousTasks.data
                     }
                 }
                 is DataResult.Error -> {

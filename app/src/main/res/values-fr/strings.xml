@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Where is it</string>
+    <string name="action_ok_en">D\'accord</string>
+    <string name="action_no_en">Non</string>
+    <string name="msg_error_time_out">Délai de connection dépassé!</string>
+    <string name="msg_error_no_internet">Ne connectez pas Internet!</string>
+    <string name="msg_error_data_parse">Erreur d\'analyse des données!</string>
+    <string name="enter_your_signal">Entrez votre signal</string>
+    <string name="where_is_my_phone">Où est mon portable...</string>
+    <string name="where_is_my_phone_with_signal_example">"Où est mon portable?"</string>
+    <string name="create">Créer</string>
+    <string name="language">Langue</string>
+    <string name="ringtone_level">Niveau de sonnerie</string>
+    <string name="vibration_intensity">Intensité de vibration</string>
+    <string name="about_us">À propos de nous</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Bonjour fragment vierge</string>
+    <string name="text_title_signal_tab_sound_response">Réponse sonore</string>
+    <string name="text_title_signal_tab">Signal actuel</string>
+    <string name="text_title_button_edit">Éditer</string>
+    <string name="text_title_button_change">Changement</string>
+    <string name="text_title_sound_name">Nom du son</string>
+    <string name="setting">Réglage</string>
+    <string name="recognition_is_not_available">La reconnaissance vocale n\'est pas disponible sur ce système</string>
+    <string name="audio_recording_error">Erreur d\'enregistrement audio</string>
+    <string name="client_side_error">Erreur côté client</string>
+    <string name="insufficient_permissions">Permissions insuffisantes</string>
+    <string name="network_error">Erreur réseau</string>
+    <string name="network_timeout">Délai d\'expiration du réseau</string>
+    <string name="no_match">Aucune concordance</string>
+    <string name="recognition_service_busy">ReconnaissanceService occupé</string>
+    <string name="error_from_server">erreur du serveur</string>
+    <string name="no_speech_input">Aucune entrée vocale</string>
+    <string name="default_speech_input">Je n\'ai pas compris, veuillez essayer</string>
+    <string name="update">Mettre à jour</string>
+    <string name="text_introduce_description_1">Inutile de perdre du temps à chercher! Récupérez votre téléphone en quelques secondes!</string>
+    <string name="text_introduce_description_2">Trouvez votre téléphone Dites quelque chose</string>
+    <string name="text_introduce_description_3">Personnalisez ce que vous voulez dire et entendre</string>
+    <string name="text_introduce_title_btn_skip">Sauter</string>
+    <string name="text_introduce_title_btn_next">SUIVANTE</string>
+    <string name="text_introduce_title_btn_start">DÉMARRER</string>
+    <!--Change Sound-->
+    <string name="text_title_tab_basic_sound">Son de base</string>
+    <string name="text_title_tab_custom_sound">Son personnalisé</string>
+    <string name="text_title_add_new_song">Ajouter une nouvelle chanson</string>
+    <string name="text_title_no_sound">Pas de son</string>
+    <string name="swipe_left_or_right_to_n_turn_off_the_sound">Balayez vers la gauche ou la droite pour désactiver le son</string>
+    <!--endregion-->
+    <!--Pop up request permission-->
+    <string name="text_notification_permission_read_file">Veuillez activer l\'autorisation de stockage</string>
+    <string name="text_notification_permission_record_audio">Veuillez activer l\'autorisation d\'enregistrer l\'audio</string>
+    <string name="edit_signal">Modifier le signal</string>
+    <string name="new_signal">Nouveau signal</string>
+    <string name="signal_is_not_empty">Le signal n\'est pas vide!</string>
+    <string name="update_signal_success">Mettre à jour le succès du signal!</string>
+    <string name="create_signal_success">Créez le succès du signal!</string>
+    <!--endregion-->
+</resources>

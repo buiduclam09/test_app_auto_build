@@ -28,6 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
         android:text="@string/enter_your_signal"
+        android:textSize="@dimen/sp_24"
+        app:fontFamily="@font/gtwalsheimpro_500"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivWakeUp" />
@@ -40,6 +42,7 @@
         android:layout_marginTop="@dimen/dp_20"
         android:layout_marginEnd="@dimen/dp_25"
         android:background="@drawable/signal_bg_edittext"
+        android:fontFamily="@font/gtwalsheimpro_500"
         android:gravity="start"
         android:imeOptions="actionDone"
         android:inputType="text"
@@ -61,7 +64,10 @@
         android:layout_marginBottom="@dimen/dp_50"
         android:text="@string/create"
         android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_18"
+        android:textStyle="bold"
         app:cornerRadius="@dimen/dp_30"
+        app:fontFamily="@font/gtwalsheimpro_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

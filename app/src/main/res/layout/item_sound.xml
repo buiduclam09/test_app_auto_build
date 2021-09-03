@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
@@ -35,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/C_596573"
                 android:textSize="@dimen/sp_18"
-                android:textStyle="bold" />
+                app:fontFamily="@font/gtwalsheimpro_500" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -44,8 +45,7 @@
             android:layout_height="@dimen/dp_20"
             android:layout_gravity="end|center"
             android:layout_margin="@dimen/dp_16"
-            android:background="@drawable/ic_pause"
-            android:visibility="invisible" />
+            app:srcCompat="@drawable/ic_play_sound" />
     </LinearLayout>
 
     <View
@@ -53,6 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:layout_marginStart="@dimen/dp_50"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_8"
         android:background="@color/C_C1CBD7" />
 </LinearLayout>

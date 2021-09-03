@@ -1,30 +1,39 @@
 package com.wakeup.hyperion.ui.setting
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Context.AUDIO_SERVICE
 import android.media.AudioManager
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.observe
 import com.google.android.material.slider.Slider
+import com.thuanpx.ktext.context.startActivity
+import com.thuanpx.ktext.context.startActivityAtRoot
 import com.thuanpx.ktext.view.hide
 import com.wakeup.hyperion.R
+import com.wakeup.hyperion.common.Constant
 import com.wakeup.hyperion.common.base.BaseFragment
 import com.wakeup.hyperion.databinding.FragmentSettingBinding
+import com.wakeup.hyperion.ui.main.MainActivity
+import com.wakeup.hyperion.ui.main.MainViewModel
+import com.wakeup.hyperion.ui.signal.SignalActivity
+import com.wakeup.hyperion.utils.LanguageSettings.ENGLISH
+import com.wakeup.hyperion.utils.LanguageSettings.FRENCH
+import com.wakeup.hyperion.utils.LanguageSettings.setLocale
+import dagger.hilt.android.AndroidEntryPoint
 
 
 /**
  * Copyright © 2021 Neolab VN.
  * Created by ThuanPx on 3/1/21.
  */
+@AndroidEntryPoint
 class SettingFragment :
     BaseFragment<SettingViewModel, FragmentSettingBinding>(SettingViewModel::class) {
 
-//    private val sharedViewModel by activityViewModels<MainViewModel>()
+    private val sharedViewModel by activityViewModels<MainViewModel>()
+    private val listLanguage = arrayListOf("English", "French")
 
     override fun inflateViewBinding(
         inflater: LayoutInflater,
@@ -37,9 +46,36 @@ class SettingFragment :
         viewBinding.run {
             toolbar.ivBack.hide()
             toolbar.tvTitle.text = getString(R.string.setting)
-
-            spinner.setItems("English")
-            spinner.setOnItemSelectedListener { view, position, id, item -> }
+            spinner.setItems(listLanguage)
+            val languageCurrent = viewModel.getLanguageLocal()
+            when (languageCurrent) {
+                FRENCH -> spinner.selectedIndex = 1
+                else -> {
+                    spinner.selectedIndex = 0
+                }
+            }
+            spinner.setOnItemSelectedListener { view, position, id, item ->
+                when (position) {
+                    0 -> {
+                        if (languageCurrent != ENGLISH) {
+                            viewModel.setLanguage(ENGLISH)
+                            setLocale(requireContext(), ENGLISH)
+                            activity?.startActivityAtRoot(SignalActivity::class, Bundle().apply {
+                                putBoolean(Constant.EXTRA_IS_UPDATE_LANGUAGE, true)
+                            })
+                        }
+                    }
+                    1 -> {
+                        if (languageCurrent != FRENCH) {
+                            viewModel.setLanguage(FRENCH)
+                            setLocale(requireContext(), FRENCH)
+                            activity?.startActivityAtRoot(SignalActivity::class, Bundle().apply {
+                                putBoolean(Constant.EXTRA_IS_UPDATE_LANGUAGE, true)
+                            })
+                        }
+                    }
+                }
+            }
 
             val am = requireContext().getSystemService(AUDIO_SERVICE) as AudioManager
             val volumeRingtone = am.getStreamVolume(AudioManager.STREAM_MUSIC)
@@ -47,25 +83,35 @@ class SettingFragment :
             sliderRingtone.valueTo = maxVolumeLevel.toFloat()
             sliderRingtone.value = volumeRingtone.toFloat()
 
-            sliderVibration.addOnSliderTouchListener(object: Slider.OnSliderTouchListener{
+            sliderRingtone.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
                 override fun onStartTrackingTouch(slider: Slider) {
                 }
 
                 override fun onStopTrackingTouch(slider: Slider) {
-                    val v = requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        v.vibrate(
-                            VibrationEffect.createOneShot(
-                                500,
-                                slider.value.toInt()
-                            )
-                        )
-                    } else {
-                        v.vibrate(500)
-                    }
+                    am.setStreamVolume(AudioManager.STREAM_MUSIC, slider.value.toInt(), 0)
                 }
 
             })
+
+//            sliderVibration.addOnSliderTouchListener(object: Slider.OnSliderTouchListener{
+//                override fun onStartTrackingTouch(slider: Slider) {
+//                }
+//
+//                override fun onStopTrackingTouch(slider: Slider) {
+//                    val v = requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        v.vibrate(
+//                            VibrationEffect.createOneShot(
+//                                500,
+//                                slider.value.toInt()
+//                            )
+//                        )
+//                    } else {
+//                        v.vibrate(500)
+//                    }
+//                }
+//
+//            })
 
         }
 
@@ -73,12 +119,12 @@ class SettingFragment :
 
     override fun onSubscribeObserver() {
         super.onSubscribeObserver()
-//        sharedViewModel.updateVolume.observe(viewLifecycleOwner) {
-//            updateRingtoneVolume()
-//        }
+        sharedViewModel.updateVolume.observe(viewLifecycleOwner) {
+            updateRingtoneVolume()
+        }
     }
 
-    fun updateRingtoneVolume() {
+    private fun updateRingtoneVolume() {
         val am = requireContext().getSystemService(AUDIO_SERVICE) as AudioManager
         val volumeRingtone = am.getStreamVolume(AudioManager.STREAM_MUSIC)
         viewBinding.sliderRingtone.value = volumeRingtone.toFloat()

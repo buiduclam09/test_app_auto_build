@@ -43,6 +43,17 @@
     <string name="text_title_tab_basic_sound">Basic Sound</string>
     <string name="text_title_tab_custom_sound">Custom Sound</string>
     <string name="text_title_add_new_song">Add new song</string>
+    <string name="text_title_no_sound">No Sound</string>
     <string name="swipe_left_or_right_to_n_turn_off_the_sound">Swipe left or right to \n turn off the sound</string>
     <!--endregion-->
+    <!--Pop up request permission-->
+    <string name="text_notification_permission_read_file">Please enable permission the storage</string>
+    <string name="text_notification_permission_record_audio">Please enable permission the record audio</string>
+    <string name="edit_signal">Edit Signal</string>
+    <string name="new_signal">New Signal</string>
+    <string name="signal_is_not_empty">Signal is not empty!</string>
+    <string name="update_signal_success">Update Signal success!</string>
+    <string name="create_signal_success">Create Signal success!</string>
+    <!--endregion-->
+
 </resources>

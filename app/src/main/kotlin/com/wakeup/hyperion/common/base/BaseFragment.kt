@@ -7,15 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.createViewModelLazy
 import androidx.viewbinding.ViewBinding
-import com.wakeup.hyperion.data.repository.DefaultSharedPrefsRepository
-import com.wakeup.hyperion.data.repository.SharedPrefsRepository
 import com.wakeup.hyperion.ui.main.MainActivity
 import com.wakeup.hyperion.utils.extension.handleDefaultApiError
-import com.wakeup.hyperion.widget.dialogManager.DialogAlert
-import com.wakeup.hyperion.widget.dialogManager.DialogConfirm
-import com.wakeup.hyperion.widget.dialogManager.DialogManager
-import com.wakeup.hyperion.widget.dialogManager.DialogManagerImpl
-import javax.inject.Inject
+import com.wakeup.hyperion.dialogManager.DialogAlert
+import com.wakeup.hyperion.dialogManager.DialogConfirm
+import com.wakeup.hyperion.dialogManager.DialogManager
+import com.wakeup.hyperion.dialogManager.DialogManagerImpl
 import kotlin.reflect.KClass
 
 /**

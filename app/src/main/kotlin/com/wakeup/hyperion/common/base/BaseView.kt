@@ -1,7 +1,7 @@
 package com.wakeup.hyperion.common.base
 
-import com.wakeup.hyperion.widget.dialogManager.DialogAlert
-import com.wakeup.hyperion.widget.dialogManager.DialogConfirm
+import com.wakeup.hyperion.dialogManager.DialogAlert
+import com.wakeup.hyperion.dialogManager.DialogConfirm
 
 interface BaseView {
 

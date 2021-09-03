@@ -2,7 +2,6 @@ package com.wakeup.hyperion.ui.introduce
 
 import android.view.LayoutInflater
 import androidx.viewpager2.widget.ViewPager2
-import com.thuanpx.ktext.context.startActivity
 import com.thuanpx.ktext.context.startActivityAtRoot
 import com.thuanpx.ktext.view.gone
 import com.wakeup.hyperion.R
@@ -10,7 +9,8 @@ import com.wakeup.hyperion.common.base.BaseActivity
 import com.wakeup.hyperion.databinding.ActivityIntroduceBinding
 import com.wakeup.hyperion.model.entity.IntroduceModel
 import com.wakeup.hyperion.ui.introduce.adapter.IntroduceAdapter
-import com.wakeup.hyperion.ui.main.MainActivity
+import com.wakeup.hyperion.ui.signal.SignalActivity
+import com.wakeup.hyperion.utils.extension.clicks
 
 class IntroduceActivity :
     BaseActivity<IntroduceViewModel, ActivityIntroduceBinding>(IntroduceViewModel::class) {
@@ -23,6 +23,9 @@ class IntroduceActivity :
     override fun initialize() {
         initAdapter()
         initViewPagerClick()
+        viewBinding.btnSkip.clicks {
+            startActivityAtRoot(SignalActivity::class)
+        }
     }
 
     private fun initViewPagerClick() {
@@ -59,7 +62,7 @@ class IntroduceActivity :
                             btnNext.gone(true)
                             updateStep(2)
                             btnStart.setOnClickListener {
-                                startActivityAtRoot(MainActivity::class)
+                                startActivityAtRoot(SignalActivity::class)
                             }
                         }
                     }
@@ -71,19 +74,19 @@ class IntroduceActivity :
     private fun initAdapter() {
         introduceList.add(
             IntroduceModel(
-                R.drawable.img_background_introduce_1,
+                R.drawable.bg_1,
                 getString(R.string.text_introduce_description_1)
             )
         )
         introduceList.add(
             IntroduceModel(
-                R.drawable.img_background_introduce_2,
+                R.drawable.bg_2,
                 getString(R.string.text_introduce_description_2)
             )
         )
         introduceList.add(
             IntroduceModel(
-                R.drawable.img_background_introduce_3,
+                R.drawable.bg_3,
                 getString(R.string.text_introduce_description_3)
             )
         )

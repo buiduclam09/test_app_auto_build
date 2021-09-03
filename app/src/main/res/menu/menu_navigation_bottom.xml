@@ -4,11 +4,11 @@
     <item
         android:id="@+id/navigation_signal"
         android:enabled="true"
-        android:icon="@drawable/ic_signal"
+        android:icon="@drawable/ic_navigation_sound"
         tools:ignore="MenuTitle" />
     <item
         android:id="@+id/navigation_setting"
         android:enabled="true"
-        android:icon="@drawable/ic_setting"
+        android:icon="@drawable/ic_navigation_setting"
         tools:ignore="MenuTitle" />
 </menu>

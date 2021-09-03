@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <corners
+                android:bottomLeftRadius="5dp"
+                android:bottomRightRadius="5dp"
+                android:topLeftRadius="5dp"
+                android:topRightRadius="5dp" />
+            <stroke
+                android:width="@dimen/dp_5"
+                android:color="@android:color/white" />
+        </shape>
+    </item>
+    <item
+        android:bottom="@dimen/dp_2"
+        android:drawable="@drawable/ic_wake_up"
+        android:left="@dimen/dp_2"
+        android:right="@dimen/dp_2"
+        android:top="@dimen/dp_2" />
+</layer-list>

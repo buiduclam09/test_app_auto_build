@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/navigation_signal"
+        android:enabled="true"
+        android:icon="@drawable/ic_signal"
+        tools:ignore="MenuTitle" />
+    <item
+        android:id="@+id/navigation_setting"
+        android:enabled="true"
+        android:icon="@drawable/ic_setting"
+        tools:ignore="MenuTitle" />
+</menu>

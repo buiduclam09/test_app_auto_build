@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Where is it</string>
+    <string name="action_ok_en">OK</string>
+    <string name="action_no_en">No</string>
+    <string name="msg_error_time_out">Connection timeout!</string>
+    <string name="msg_error_no_internet">Not connect internet!</string>
+    <string name="msg_error_data_parse">Parse data error!</string>
+    <string name="enter_your_signal">Enter your signal</string>
+    <string name="where_is_my_phone">Where is my phone...</string>
+    <string name="where_is_my_phone_with_signal_example">"Where is my phone?"</string>
+    <string name="create">Create</string>
+    <string name="language">Language</string>
+    <string name="ringtone_level">Ringtone Level</string>
+    <string name="vibration_intensity">Vibration Intensity</string>
+    <string name="about_us">About Us</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_title_signal_tab_sound_response">Sound Response</string>
+    <string name="text_title_signal_tab">Current Signal</string>
+    <string name="text_title_button_edit">Edit</string>
+    <string name="text_title_button_change">Change</string>
+    <string name="text_title_sound_name">Sound Name</string>
+    <string name="setting">Setting</string>
+    <string name="recognition_is_not_available">Speech recognition is not available on this system</string>
+    <string name="audio_recording_error">Audio recording error</string>
+    <string name="client_side_error">Client side error</string>
+    <string name="insufficient_permissions">Insufficient permissions</string>
+    <string name="network_error">Network error</string>
+    <string name="network_timeout">Network timeout</string>
+    <string name="no_match">No match</string>
+    <string name="recognition_service_busy">RecognitionService busy</string>
+    <string name="error_from_server">error from server</string>
+    <string name="no_speech_input">No Speech input</string>
+    <string name="default_speech_input">Didn\'t understand, please try again.</string>
+    <string name="update">Update</string>
+    <string name="text_introduce_description_1">No need to waste time \nlooking around! Get your \nphone back in seconds!</string>
+    <string name="text_introduce_description_2">Find your phone \nSay something</string>
+    <string name="text_introduce_description_3">Customize what you \nwant to say and hear</string>
+    <string name="text_introduce_title_btn_skip">Skip</string>
+    <string name="text_introduce_title_btn_next">NEXT</string>
+    <string name="text_introduce_title_btn_start">START</string>
+    <!--Change Sound-->
+    <string name="text_title_tab_basic_sound">Basic Sound</string>
+    <string name="text_title_tab_custom_sound">Custom Sound</string>
+    <string name="text_title_add_new_song">Add new song</string>
+    <string name="swipe_left_or_right_to_n_turn_off_the_sound">Swipe left or right to \n turn off the sound</string>
+    <!--endregion-->
+</resources>

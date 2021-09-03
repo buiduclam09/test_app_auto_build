@@ -6,8 +6,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
     <application
         android:name=".app.App"
@@ -20,7 +22,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.introduce.IntroduceActivity" />
+        <activity android:name=".ui.signal.SignalActivity" />
+        <activity
+            android:name=".ui.introduce.IntroduceActivity"
+            android:theme="@style/SplashTheme" />
         <activity android:name=".ui.turnOff.TurnOffActivity" />
         <activity
             android:name=".ui.splash.SplashActivity"
@@ -36,8 +41,17 @@
             android:name=".ui.main.MainService"
             android:enabled="true"
             android:process=":process" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
 
-        <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <!-- Sample AdMob app ID: ca-app-pub-7926716557588074~7259035856 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-7926716557588074~7259035856"/>

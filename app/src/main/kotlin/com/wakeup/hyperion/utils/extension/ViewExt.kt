@@ -45,3 +45,11 @@ fun FragmentActivity.setStatusBarColor(@ColorRes color: Int, isDarkColor: Boolea
         }
     }
 }
+
+fun View.gone() {
+    visibility = View.GONE
+}
+
+fun View.show(isShow: Boolean = true) {
+    visibility = if (isShow) View.VISIBLE else View.INVISIBLE
+}

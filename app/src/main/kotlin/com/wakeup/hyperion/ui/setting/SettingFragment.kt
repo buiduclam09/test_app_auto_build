@@ -13,14 +13,19 @@ import com.thuanpx.ktext.context.startActivityAtRoot
 import com.thuanpx.ktext.view.hide
 import com.wakeup.hyperion.R
 import com.wakeup.hyperion.common.Constant
+import com.wakeup.hyperion.common.ExtraConstant.EXTRA_TITLE
+import com.wakeup.hyperion.common.ExtraConstant.EXTRA_URL
 import com.wakeup.hyperion.common.base.BaseFragment
 import com.wakeup.hyperion.databinding.FragmentSettingBinding
 import com.wakeup.hyperion.ui.main.MainActivity
 import com.wakeup.hyperion.ui.main.MainViewModel
 import com.wakeup.hyperion.ui.signal.SignalActivity
+import com.wakeup.hyperion.ui.webview.WebViewActivity
 import com.wakeup.hyperion.utils.LanguageSettings.ENGLISH
 import com.wakeup.hyperion.utils.LanguageSettings.FRENCH
 import com.wakeup.hyperion.utils.LanguageSettings.setLocale
+import com.wakeup.hyperion.utils.extension.clicks
+import com.wakeup.hyperion.utils.extension.goTo
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -93,26 +98,13 @@ class SettingFragment :
 
             })
 
-//            sliderVibration.addOnSliderTouchListener(object: Slider.OnSliderTouchListener{
-//                override fun onStartTrackingTouch(slider: Slider) {
-//                }
-//
-//                override fun onStopTrackingTouch(slider: Slider) {
-//                    val v = requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                        v.vibrate(
-//                            VibrationEffect.createOneShot(
-//                                500,
-//                                slider.value.toInt()
-//                            )
-//                        )
-//                    } else {
-//                        v.vibrate(500)
-//                    }
-//                }
-//
-//            })
-
+            clAboutUs.clicks {
+                Bundle().apply {
+                    putString(EXTRA_URL, "https://where-is-it.flycricket.io/terms.html")
+                    putString(EXTRA_TITLE, "About us")
+                    goTo(WebViewActivity::class, this)
+                }
+            }
         }
 
     }

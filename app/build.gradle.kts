@@ -120,10 +120,6 @@ androidExtensions {
     isExperimental = true
 }
 
-kapt {
-    useBuildCache = true
-}
-
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // Kotlin

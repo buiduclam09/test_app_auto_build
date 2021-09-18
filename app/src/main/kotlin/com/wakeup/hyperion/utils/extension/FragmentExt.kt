@@ -18,3 +18,12 @@ fun <T : Activity> Fragment.goToForResult(
     if (parcel != null) intent.putExtra(EXTRA_ARGS, parcel)
     startActivityForResult(intent, requestCode)
 }
+fun <T : Activity> Fragment.goTo(
+    cls: KClass<T>, bundle: Bundle? = null,
+    parcel: Parcelable? = null
+) {
+    val intent = Intent(context, cls.java)
+    if (bundle != null) intent.putExtra(EXTRA_ARGS, bundle)
+    if (parcel != null) intent.putExtra(EXTRA_ARGS, parcel)
+    startActivity(intent)
+}

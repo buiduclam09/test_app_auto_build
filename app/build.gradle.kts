@@ -1,14 +1,17 @@
+import Dependencies.hilt_androidx_compiler
+import Dependencies.hilt_compiler
+import Dependencies.hilt_view_model
 import java.text.SimpleDateFormat
 import java.util.*
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    kotlin("android.extensions")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
-    id("kotlin-kapt")
-    id("kotlin-android")
+    id(Plugins.androidApp)
+    kotlin(Plugins.kotlinAndroid)
+    kotlin(Plugins.kotlinExt)
+    kotlin(Plugins.kapt)
+    id(Plugins.google_services)
+    id(Plugins.crashlytics)
 }
 
 buildscript {
@@ -88,14 +91,6 @@ android {
         preDexLibraries = true
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
 
     buildFeatures {
         viewBinding = true
@@ -114,10 +109,11 @@ android {
         exclude("META-INF/ASL2.0")
         exclude("META-INF/*.kotlin_module")
     }
-}
-
-androidExtensions {
-    isExperimental = true
+    kapt {
+        javacOptions {
+            option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+        }
+    }
 }
 
 dependencies {
@@ -157,13 +153,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.3.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.3.3")
     implementation("androidx.activity:activity-ktx:1.3.0-alpha03")
-    // Hilt
-    implementation("com.google.dagger:hilt-android:2.31-alpha")
-    kapt("com.google.dagger:hilt-android-compiler:2.31-alpha")
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
-    kapt("androidx.hilt:hilt-compiler:1.0.0-alpha03")
     //add firebase
-    // add firebase
     implementation(platform("com.google.firebase:firebase-bom:28.3.1"))
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
@@ -173,6 +163,11 @@ dependencies {
     implementation("com.jaredrummler:material-spinner:1.3.1")
     implementation("ua.zabelnikiov:swipeLayout:1.0")
     implementation("com.google.android.gms:play-services-ads:19.7.0")
+    annotationProcessor("com.google.dagger:hilt-android-compiler:2.28-alpha")
+    //hilt
+    implementation(hilt_compiler)
+    implementation(hilt_view_model)
+    implementation(hilt_androidx_compiler)
     implementation(kotlin("reflect"))
 }
 apply {

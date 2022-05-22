@@ -4,7 +4,7 @@
  * Versions in project
  */
 object Versions {
-    const val kotlin = "1.3.72"
+    const val kotlin = "1.5.0"
     const val android_gradle_plugin = "4.0.0"
 
     const val compile_sdk_version = 29
@@ -36,6 +36,8 @@ object Versions {
     const val conscrypt_android = "2.4.0"
     const val hilt = "2.28-alpha"
     const val hilt_view_model = "1.0.0-alpha01"
+    const val google_services = "4.3.0"
+    const val crashlytics = "2.4.1"
 }
 
 /**
@@ -46,6 +48,8 @@ object ClassPaths {
         "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
     const val kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val hilt_gradle_plugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
+    const val google_services = "com.google.gms:google-services:${Versions.google_services}"
+    const val crashlytics = "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlytics}"
 }
 
 /**
@@ -61,6 +65,8 @@ object Plugins {
     const val hilt = "dagger.hilt.android.plugin"
     const val detekt = "io.gitlab.arturbosch.detekt"
     const val koin = "koin"
+    const val google_services = "com.google.gms.google-services"
+    const val crashlytics = "com.google.firebase.crashlytics"
 }
 
 /**

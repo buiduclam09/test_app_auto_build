@@ -1,3 +1,4 @@
+
 buildscript {
     repositories {
         google()
@@ -5,11 +6,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.0.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.30")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.31-alpha")
-        classpath ("com.google.gms:google-services:4.3.10")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.7.1")
+        classpath(ClassPaths.android_gradle_plugin)
+        classpath(ClassPaths.kotlin_gradle_plugin)
+        classpath(ClassPaths.google_services)
+        classpath(ClassPaths.crashlytics)
+        classpath(ClassPaths.hilt_gradle_plugin)
     }
 }
 

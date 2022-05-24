@@ -1,3 +1,6 @@
+import Dependencies.arrow_core
+import Dependencies.arrow_implement
+import Dependencies.arrow_meta
 import Dependencies.hilt_androidx_compiler
 import Dependencies.hilt_compiler
 import Dependencies.hilt_view_model
@@ -169,6 +172,10 @@ dependencies {
     implementation(hilt_view_model)
     implementation(hilt_androidx_compiler)
     implementation(kotlin("reflect"))
+    //arrow
+    implementation(arrow_core)
+    implementation(arrow_implement)
+    kapt(arrow_meta)
 }
 apply {
     plugin("com.google.gms.google-services")

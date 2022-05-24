@@ -1,3 +1,5 @@
+import Versions.arrow_version
+
 /**
  * Created by ThuanPx on 3/15/20.
  * Source: https://docs.gradle.org/current/userguide/kotlin_dsl.html
@@ -38,6 +40,7 @@ object Versions {
     const val hilt_view_model = "1.0.0-alpha01"
     const val google_services = "4.3.0"
     const val crashlytics = "2.4.1"
+    const val arrow_version = "0.11.0"
 }
 
 /**
@@ -130,4 +133,7 @@ object Dependencies {
     const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
     const val hilt_view_model = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_view_model}"
     const val hilt_androidx_compiler = "androidx.hilt:hilt-compiler:${Versions.hilt_view_model}"
+    const val arrow_core = "io.arrow-kt:arrow-core:$arrow_version"
+    const val arrow_implement = "io.arrow-kt:arrow-syntax:$arrow_version"
+    const val arrow_meta = "io.arrow-kt:arrow-meta:$arrow_version"
 }

@@ -1,18 +1,18 @@
 import Dependencies.arrow_core
 import Dependencies.arrow_implement
 import Dependencies.arrow_meta
-import Dependencies.hilt_androidx_compiler
-import Dependencies.hilt_compiler
 import Dependencies.hilt_view_model
 import java.text.SimpleDateFormat
 import java.util.*
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id(Plugins.androidApp)
-    kotlin(Plugins.kotlinAndroid)
-    kotlin(Plugins.kotlinExt)
-    kotlin(Plugins.kapt)
+    id("com.android.application")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-kapt")
+    id("kotlin-android")
+    id("kotlin-parcelize")
     id(Plugins.google_services)
     id(Plugins.crashlytics)
 }
@@ -99,6 +99,10 @@ android {
         viewBinding = true
     }
 
+    kapt {
+        useBuildCache = true
+    }
+
     sourceSets["main"].java.srcDir("src/main/kotlin")
 
     packagingOptions {
@@ -166,12 +170,11 @@ dependencies {
     implementation("com.jaredrummler:material-spinner:1.3.1")
     implementation("ua.zabelnikiov:swipeLayout:1.0")
     implementation("com.google.android.gms:play-services-ads:19.7.0")
-    annotationProcessor("com.google.dagger:hilt-android-compiler:2.28-alpha")
-    //hilt
-    implementation(hilt_compiler)
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.41")
+    kapt("com.google.dagger:hilt-android-compiler:2.41")
+    // Hilt ViewModel
     implementation(hilt_view_model)
-    implementation(hilt_androidx_compiler)
-    implementation(kotlin("reflect"))
     //arrow
     implementation(arrow_core)
     implementation(arrow_implement)

@@ -6,6 +6,7 @@ import com.google.android.gms.ads.LoadAdError
 import java.lang.Exception
 import javax.inject.Inject
 import arrow.core.Either
+import arrow.core.getOrHandle
 import arrow.core.left
 import arrow.core.right
 import com.google.android.gms.ads.AdError
@@ -13,10 +14,13 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.wakeup.hyperion.utils.extension.retryWhenWithExponentialBackoff
+import com.wakeup.hyperion.utils.extension.takeUntil
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlin.coroutines.resume
 import timber.log.Timber
+import kotlin.time.TimeSource
 import kotlin.time.*
 
 
@@ -41,8 +45,28 @@ class BannerAdsManager
     private val interstitialAdStateFlow: StateFlow<LoadAdErrorBannerAds?> =
         loadAdActionSharedFlow.filterIsInstance<AdAction.Load>()
             .flatMapLatest {
-                ::
-            }
+                ::loadAdInternal.asFlow().cancellable().map { either ->
+                    either.right().getOrHandle {
+                        throw LoadAdErrorException(it)
+                    }
+                }.retryWhenWithExponentialBackoff(
+                    initialDelay = 2.seconds,
+                    factor = 2.0,
+                    maxDelay = Duration.INFINITE,
+                ) { cause, attempt ->
+                    Timber.tag(LOG_TAG)
+                        .d("interstitialAdStateFlow: loadAdInternal: retry attempt=$attempt, cause=$cause")
+                    attempt < MAX_RETRIES && cause is LoadAdErrorException
+                }.map { it.right() as LoadAdErrorBannerAds? }
+                    .onStart { emit(null) }
+                    .catch { emit((it as LoadAdErrorException).error.left()) }
+                    .takeUntil(loadAdActionSharedFlow.filterIsInstance<AdAction.Cancel>())
+
+            }.onEach {
+                Timber
+                    .tag(LOG_TAG)
+                    .d("interstitialAdStateFlow: loadAdInternal: final either=$it")
+            }.stateIn(scope, SharingStarted.Eagerly, null)
 
 
     private suspend fun loadAdInternal() {

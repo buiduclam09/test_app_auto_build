@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.wakeup.hyperion.databinding.DialogAlertBinding
-import kotlinx.android.synthetic.main.dialog_alert.*
 
 class DialogAlert : DialogFragment() {
 
@@ -52,16 +51,16 @@ class DialogAlert : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.setCanceledOnTouchOutside(false)
         dialog?.setCancelable(false)
-
-        tvTitle.text = title
-        tvContent.text = message
-        if (!titleBtn.isNullOrEmpty()) {
-            btnPositive.text = titleBtn
+        with(viewBinding) {
+            tvTitle.text = title
+            tvContent.text = message
+            if (!titleBtn.isNullOrEmpty()) {
+                btnPositive.text = titleBtn
+            }
+            if (!title.isNullOrEmpty()) {
+                tvTitle.visibility = View.GONE
+            }
         }
-        if (!title.isNullOrEmpty()) {
-            tvTitle.visibility = View.GONE
-        }
-
         viewBinding.btnPositive.setOnClickListener {
             dismiss(); listener?.onPositiveClicked()
         }

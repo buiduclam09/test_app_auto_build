@@ -201,21 +201,19 @@ class MainService : Service() {
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                NOTIFICATION_CHANNEL_ID,
-                "RWD",
-                NotificationManager.IMPORTANCE_HIGH
-            )
-            val manager = getSystemService(
-                NotificationManager::class.java
-            )
-            notificationChannel.apply {
-                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-                setShowBadge(false)
-            }
-            manager.createNotificationChannel(notificationChannel)
+        val notificationChannel = NotificationChannel(
+            NOTIFICATION_CHANNEL_ID,
+            "RWD",
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        val manager = getSystemService(
+            NotificationManager::class.java
+        )
+        notificationChannel.apply {
+            lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            setShowBadge(false)
         }
+        manager.createNotificationChannel(notificationChannel)
     }
 
     companion object {

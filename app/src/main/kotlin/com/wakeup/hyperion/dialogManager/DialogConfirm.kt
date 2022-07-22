@@ -8,15 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.thuanpx.ktext.view.gone
-import com.wakeup.hyperion.R
-import kotlinx.android.synthetic.main.dialog_confirm.*
+import com.wakeup.hyperion.databinding.DialogConfirmBinding
 
 class DialogConfirm : DialogFragment() {
+
     var listener: OnButtonClickedListener? = null
     private var title: String? = ""
     private var message: String? = ""
     private var titleBtnPositive: String? = ""
     private var titleBtnNegative: String? = ""
+    private var _viewBinding: DialogConfirmBinding? = null
+    protected val viewBinding get() = _viewBinding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,20 +28,22 @@ class DialogConfirm : DialogFragment() {
 
         arguments?.let {
             title = it.getString(
-                    TITLE_EXTRA
+                TITLE_EXTRA
             )
             message = it.getString(
-                    MESSAGE_EXTRA
+                MESSAGE_EXTRA
             )
             titleBtnPositive = it.getString(
-                    TITLE_BUTTON_POSITIVE_EXTRA
+                TITLE_BUTTON_POSITIVE_EXTRA
             )
             titleBtnNegative = it.getString(
-                    TITLE_BUTTON_NEGATIVE_EXTRA
+                TITLE_BUTTON_NEGATIVE_EXTRA
             )
         }
 
-        return inflater.inflate(R.layout.dialog_confirm, container)
+        _viewBinding = DialogConfirmBinding.inflate(inflater, container, false)
+
+        return _viewBinding!!.root
     }
 
     override fun onStart() {
@@ -55,14 +59,15 @@ class DialogConfirm : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        with(viewBinding) {
+            tvTitle.text = title
+            tvContent.text = message
 
-        tvTitle.text = title
-        tvContent.text = message
+            tvTitle.gone(title.isNullOrBlank())
 
-        tvTitle.gone(title.isNullOrBlank())
+            tvContent.gone(message.isNullOrBlank())
 
-        tvContent.gone(message.isNullOrBlank())
-
+        }
 //        val actionPositiveDis = RxView.clicks(btnPositive)
 //                .subscribe {
 //                    dismiss()
@@ -82,6 +87,11 @@ class DialogConfirm : DialogFragment() {
         super.onDestroy()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _viewBinding = null
+    }
+
     companion object {
         private const val TITLE_EXTRA = "TITLE_EXTRA"
         private const val MESSAGE_EXTRA = "MESSAGE_EXTRA"
@@ -98,13 +108,17 @@ class DialogConfirm : DialogFragment() {
             return DialogConfirm().apply {
                 arguments = Bundle().apply {
                     putString(
-                            TITLE_EXTRA, title)
+                        TITLE_EXTRA, title
+                    )
                     putString(
-                            MESSAGE_EXTRA, message)
+                        MESSAGE_EXTRA, message
+                    )
                     putString(
-                            TITLE_BUTTON_POSITIVE_EXTRA, titleBtnPositive)
+                        TITLE_BUTTON_POSITIVE_EXTRA, titleBtnPositive
+                    )
                     putString(
-                            TITLE_BUTTON_NEGATIVE_EXTRA, titleBtnNegative)
+                        TITLE_BUTTON_NEGATIVE_EXTRA, titleBtnNegative
+                    )
                 }
                 this.listener = listener
             }

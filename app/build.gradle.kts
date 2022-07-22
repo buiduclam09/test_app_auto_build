@@ -1,18 +1,19 @@
 import Dependencies.arrow_core
 import Dependencies.arrow_implement
 import Dependencies.arrow_meta
-import Dependencies.hilt_androidx_compiler
-import Dependencies.hilt_compiler
 import Dependencies.hilt_view_model
+import Versions.arrow_version
 import java.text.SimpleDateFormat
 import java.util.*
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id(Plugins.androidApp)
-    kotlin(Plugins.kotlinAndroid)
-    kotlin(Plugins.kotlinExt)
-    kotlin(Plugins.kapt)
+    id("com.android.application")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-kapt")
+    id("kotlin-android")
+    id("kotlin-parcelize")
     id(Plugins.google_services)
     id(Plugins.crashlytics)
 }
@@ -28,11 +29,11 @@ android {
     flavorDimensions("default")
 
     defaultConfig {
-        applicationId = "com.whereisit"
+        applicationId = "com.pixelteam.whereisit"
         minSdkVersion(Versions.min_sdk_version)
         targetSdkVersion(Versions.target_sdk_version)
-        versionCode = 1
-        versionName = "1_0"
+        versionCode = 3
+        versionName = "1.0.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         setProperty(
@@ -48,13 +49,16 @@ android {
             versionName = "1.0.0"
 
             buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
+            buildConfigField("String", "INTERSTITIAL_AD_UNIT_ID", "\"ca-app-pub-3940256099942544/1033173712\"")
         }
 
         create("PROD") {
-            versionCode = 1
+            versionCode = 4
             versionName = "1.0.0"
 
             buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
+            buildConfigField("String", "INTERSTITIAL_AD_UNIT_ID", "\"ca-app-pub-7926716557588074~7259035856\"")
+
         }
     }
 
@@ -85,7 +89,7 @@ android {
                 getDefaultProguardFile("proguard-android.txt"), file("proguard-rules.pro")
             )
             signingConfig = signingConfigs.getByName("release")
-            isDebuggable = true
+            isDebuggable = false
         }
     }
 
@@ -97,6 +101,10 @@ android {
 
     buildFeatures {
         viewBinding = true
+    }
+
+    kapt {
+        useBuildCache = true
     }
 
     sourceSets["main"].java.srcDir("src/main/kotlin")
@@ -122,7 +130,7 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // Kotlin
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.1")
     // App compat & design
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("com.google.android.material:material:1.3.0")
@@ -130,8 +138,8 @@ dependencies {
     //support library
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -166,16 +174,14 @@ dependencies {
     implementation("com.jaredrummler:material-spinner:1.3.1")
     implementation("ua.zabelnikiov:swipeLayout:1.0")
     implementation("com.google.android.gms:play-services-ads:19.7.0")
-    annotationProcessor("com.google.dagger:hilt-android-compiler:2.28-alpha")
-    //hilt
-    implementation(hilt_compiler)
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.41")
+    kapt("com.google.dagger:hilt-android-compiler:2.41")
+    // Hilt ViewModel
     implementation(hilt_view_model)
-    implementation(hilt_androidx_compiler)
-    implementation(kotlin("reflect"))
     //arrow
-    implementation(arrow_core)
-    implementation(arrow_implement)
-    kapt(arrow_meta)
+    implementation("io.arrow-kt:arrow-core:$arrow_version")
+    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2")
 }
 apply {
     plugin("com.google.gms.google-services")

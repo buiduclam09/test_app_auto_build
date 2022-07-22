@@ -46,6 +46,7 @@ class BasicSoundFragment :
     }
 
     override fun initialize() {
+        viewModel.showAds()
         initAdapter()
     }
 
@@ -144,10 +145,38 @@ class BasicSoundFragment :
 
     private fun dummyData(): ArrayList<SignalLocalModel> {
         val listSound = ArrayList<SignalLocalModel>()
-        listSound.add(SignalLocalModel(true, "A Himitsu Adventures", R.raw.a_himitsu_adventures.toString(), false))
-        listSound.add(SignalLocalModel(true, "And So It Begins", R.raw.and_so_it_begins.toString(), false))
-        listSound.add(SignalLocalModel(true, "Kubbi Up In My Jam", R.raw.kubbi_up_in_my_jam.toString(), false))
-        listSound.add(SignalLocalModel(true, "Phone Vibrate", R.raw.cell_phone_vibrate.toString(), false))
+        listSound.add(
+            SignalLocalModel(
+                true,
+                "A Himitsu Adventures",
+                R.raw.a_himitsu_adventures.toString(),
+                false
+            )
+        )
+        listSound.add(
+            SignalLocalModel(
+                true,
+                "And So It Begins",
+                R.raw.and_so_it_begins.toString(),
+                false
+            )
+        )
+        listSound.add(
+            SignalLocalModel(
+                true,
+                "Kubbi Up In My Jam",
+                R.raw.kubbi_up_in_my_jam.toString(),
+                false
+            )
+        )
+        listSound.add(
+            SignalLocalModel(
+                true,
+                "Phone Vibrate",
+                R.raw.cell_phone_vibrate.toString(),
+                false
+            )
+        )
         listSound.add(SignalLocalModel(true, "MBB Island", R.raw.mbb_island.toString(), false))
         return listSound
     }

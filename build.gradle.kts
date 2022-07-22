@@ -6,11 +6,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(ClassPaths.android_gradle_plugin)
-        classpath(ClassPaths.kotlin_gradle_plugin)
+        classpath("com.android.tools.build:gradle:7.0.4")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
         classpath(ClassPaths.google_services)
         classpath(ClassPaths.crashlytics)
-        classpath(ClassPaths.hilt_gradle_plugin)
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.40.5")
     }
 }
 

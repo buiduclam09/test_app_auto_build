@@ -1,6 +1,7 @@
 package com.wakeup.hyperion.app
 
 import android.app.Application
+import com.google.android.gms.ads.MobileAds
 import com.wakeup.hyperion.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -16,6 +17,13 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         configTimber()
+        initAds()
+
+    }
+
+    private fun initAds(){
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(this) {}
     }
 
     private fun configTimber() {

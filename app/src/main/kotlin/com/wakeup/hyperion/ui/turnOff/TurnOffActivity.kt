@@ -46,27 +46,28 @@ class TurnOffActivity :
     override fun initialize() {
         val adRequest = AdRequest.Builder().build()
 
-        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                interstitialAd = null
-            }
-
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                this@TurnOffActivity.interstitialAd = interstitialAd
-                this@TurnOffActivity.interstitialAd?.show(this@TurnOffActivity)
-            }
-        })
-        interstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
-            override fun onAdDismissedFullScreenContent() {
-            }
-
-            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
-            }
-
-            override fun onAdShowedFullScreenContent() {
-                interstitialAd = null
-            }
-        }
+//        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
+//            override fun onAdFailedToLoad(adError: LoadAdError) {
+//                interstitialAd = null
+//            }
+//
+//            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+//                this@TurnOffActivity.interstitialAd = interstitialAd
+//                this@TurnOffActivity.interstitialAd?.show(this@TurnOffActivity)
+//            }
+//        })
+//        interstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+//            override fun onAdDismissedFullScreenContent() {
+//            }
+//
+//            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+//            }
+//
+//            override fun onAdShowedFullScreenContent() {
+//                interstitialAd = null
+//            }
+//        }
+        viewModel.showAds()
 
         stopService(Intent(this, MainService::class.java))
         startSound()

@@ -6,6 +6,7 @@ import com.google.android.gms.ads.LoadAdError
 import java.lang.Exception
 import javax.inject.Inject
 import arrow.core.Either
+import arrow.core.getOrHandle
 import arrow.core.left
 import arrow.core.right
 import com.google.android.gms.ads.AdError
@@ -13,10 +14,20 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.wakeup.hyperion.BuildConfig
+import com.wakeup.hyperion.utils.extension.retryWhenWithExponentialBackoff
+import com.wakeup.hyperion.utils.extension.takeUntil
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlin.coroutines.resume
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 import timber.log.Timber
+import javax.inject.Singleton
+import kotlin.time.TimeSource
+import kotlinx.coroutines.withTimeoutOrNull
+import kotlin.system.measureTimeMillis
 import kotlin.time.*
 
 
@@ -30,6 +41,7 @@ private typealias LoadAdErrorBannerAds = Either<LoadAdError, InterstitialAd>
 
 @ExperimentalCoroutinesApi
 @OptIn(ExperimentalTime::class)
+@Singleton
 class BannerAdsManager
 @Inject constructor(
     private val activity: AppCompatActivity,
@@ -41,15 +53,35 @@ class BannerAdsManager
     private val interstitialAdStateFlow: StateFlow<LoadAdErrorBannerAds?> =
         loadAdActionSharedFlow.filterIsInstance<AdAction.Load>()
             .flatMapLatest {
-                ::
-            }
+                ::loadAdInternal.asFlow().cancellable().map { either ->
+                    either.right().getOrHandle {
+                        throw LoadAdErrorException(it)
+                    }
+                }.retryWhenWithExponentialBackoff(
+                    initialDelay = 2.seconds,
+                    factor = 2.0,
+                    maxDelay = Duration.INFINITE,
+                ) { cause, attempt ->
+                    Timber.tag(LOG_TAG)
+                        .d("interstitialAdStateFlow: loadAdInternal: retry attempt=$attempt, cause=$cause")
+                    attempt < MAX_RETRIES && cause is LoadAdErrorException
+                }.map { it.right() as LoadAdErrorBannerAds? }
+                    .onStart { emit(null) }
+                    .catch { emit((it as LoadAdErrorException).error.left()) }
+                    .takeUntil(loadAdActionSharedFlow.filterIsInstance<AdAction.Cancel>())
+
+            }.onEach {
+                Timber
+                    .tag(LOG_TAG)
+                    .d("interstitialAdStateFlow: loadAdInternal: final either=$it")
+            }.stateIn(scope, SharingStarted.Eagerly, null)
 
 
     private suspend fun loadAdInternal() {
         suspendCancellableCoroutine<LoadAdErrorBannerAds> { count ->
             InterstitialAd.load(
                 activity,
-                INTERSTITIAL_AD_UNIT_ID,
+                BuildConfig.INTERSTITIAL_AD_UNIT_ID,
                 AdRequest.Builder().build(),
                 object : InterstitialAdLoadCallback() {
                     override fun onAdFailedToLoad(error: LoadAdError) = count.resume(error.left())
@@ -70,6 +102,7 @@ class BannerAdsManager
                 .d("showInternal: ignore because the timeout is not passed, lastShowAdTime=$lastShowAdTime")
             return
         }
+
         val either = withTimeoutOrNull(WAITING_TIMEOUT_DURATION) {
             interstitialAdStateFlow.first { it != null }
         }
@@ -132,7 +165,7 @@ class BannerAdsManager
                         .d("interstitialAdStateFlow: loadAdInternal: original either=$it")
                 }
 
-        private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712"
+//        private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712"
         private const val LOG_TAG = "InterstitialAdManager"
         private const val MAX_RETRIES = 3
 

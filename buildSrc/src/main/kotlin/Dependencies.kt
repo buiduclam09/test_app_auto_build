@@ -9,10 +9,10 @@ object Versions {
     const val kotlin = "1.5.0"
     const val android_gradle_plugin = "4.0.0"
 
-    const val compile_sdk_version = 29
-    const val build_tools_version = "29.0.2"
-    const val min_sdk_version = 21
-    const val target_sdk_version = 29
+    const val compile_sdk_version = 30
+    const val build_tools_version = "30.0.2"
+    const val min_sdk_version = 26
+    const val target_sdk_version = 30
 
     const val appcompat = "1.1.0"
     const val core_ktx = "1.1.0"
@@ -40,7 +40,7 @@ object Versions {
     const val hilt_view_model = "1.0.0-alpha01"
     const val google_services = "4.3.0"
     const val crashlytics = "2.4.1"
-    const val arrow_version = "0.11.0"
+    const val arrow_version = "1.1.2"
 }
 
 /**
@@ -63,6 +63,7 @@ object Plugins {
     const val kotlinAndroid = "android"
     const val kotlin = "kotlin"
     const val kotlinExt = "android.extensions"
+    const val kotlinExtTest = "kotlin-android-extensions"
     const val kapt = "kapt"
     const val kotlinApt = "kotlin-kapt"
     const val hilt = "dagger.hilt.android.plugin"

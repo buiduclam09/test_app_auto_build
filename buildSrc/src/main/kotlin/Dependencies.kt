@@ -40,7 +40,7 @@ object Versions {
     const val hilt_view_model = "1.0.0-alpha01"
     const val google_services = "4.3.0"
     const val crashlytics = "2.4.1"
-    const val arrow_version = "0.11.0"
+    const val arrow_version = "1.1.2"
 }
 
 /**

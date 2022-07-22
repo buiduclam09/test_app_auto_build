@@ -7,20 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1012267353093:android:3554faa0b61bccaa21086c",
+        "mobilesdk_app_id": "1:1012267353093:android:56ec5317fc79839a21086c",
         "android_client_info": {
-          "package_name": "com.whereisit"
+          "package_name": "com.pixelteam.whereisit"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "1012267353093-bc38e5rdad1qpdakg10e3kjogge5l3v2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.whereisit",
-            "certificate_hash": "1074068db8c2a37860e10d0fedd74b208c2ff859"
-          }
-        },
         {
           "client_id": "1012267353093-cgm1c5evsm96h85rin1n4uisqltp1v6b.apps.googleusercontent.com",
           "client_type": 3
@@ -44,20 +36,12 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1012267353093:android:bf8eff7a291c039121086c",
+        "mobilesdk_app_id": "1:1012267353093:android:4648b97bcd12b7c021086c",
         "android_client_info": {
-          "package_name": "com.whereisit.dev"
+          "package_name": "com.pixelteam.whereisit.dev"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "1012267353093-6r1umm1b362pn7a98qrqhpgo2jn7sisa.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.whereisit.dev",
-            "certificate_hash": "1074068db8c2a37860e10d0fedd74b208c2ff859"
-          }
-        },
         {
           "client_id": "1012267353093-cgm1c5evsm96h85rin1n4uisqltp1v6b.apps.googleusercontent.com",
           "client_type": 3

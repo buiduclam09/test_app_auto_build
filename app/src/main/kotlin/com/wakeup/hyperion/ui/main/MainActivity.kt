@@ -65,6 +65,7 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(MainViewMo
     }
 
     override fun initialize() {
+        viewModel.showAds()
         requestPermission.launch(
             arrayOf(
                 Manifest.permission.RECORD_AUDIO,

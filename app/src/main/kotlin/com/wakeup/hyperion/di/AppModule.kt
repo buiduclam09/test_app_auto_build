@@ -1,6 +1,7 @@
 package com.wakeup.hyperion.di
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -14,6 +15,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import kotlin.time.ExperimentalTime
+import kotlin.time.TimeSource
 
 /**
  * Copyright © 2020 Neolab VN.
@@ -43,4 +46,11 @@ object AppModule {
     fun provideSharedPrefsApi(app: Application): SharedPrefs {
         return SharedPrefsImpl(app)
     }
+    @OptIn(ExperimentalTime::class)
+    @Provides @Singleton
+    fun timeSource(): TimeSource = TimeSource.Monotonic
+
+    @Provides @Singleton
+    fun activity() : AppCompatActivity = AppCompatActivity()
 }
+

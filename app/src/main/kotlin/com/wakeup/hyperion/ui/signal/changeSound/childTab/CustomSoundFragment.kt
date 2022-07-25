@@ -1,7 +1,9 @@
 package com.wakeup.hyperion.ui.signal.changeSound.childTab
 
+import InterstitialAdManager
 import android.Manifest
 import android.content.Intent
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -30,8 +32,10 @@ import com.wakeup.hyperion.utils.ResourcesManager
 import com.wakeup.hyperion.utils.extension.clicks
 import com.wakeup.hyperion.dialogManager.DialogAlert
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CustomSoundFragment :
@@ -40,6 +44,7 @@ class CustomSoundFragment :
     private var customSoundAdapter: CustomSoundAdapter? = null
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+
 
     companion object {
         fun newInstance() = CustomSoundFragment()
@@ -52,8 +57,8 @@ class CustomSoundFragment :
     ): FragmentCustomSoundBinding {
         return FragmentCustomSoundBinding.inflate(inflater, container, false)
     }
-
     override fun initialize() {
+
         initAdapter()
         handleOnclick()
     }

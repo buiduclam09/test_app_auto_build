@@ -53,7 +53,7 @@ android {
         }
 
         create("PROD") {
-            versionCode = 4
+            versionCode = 5
             versionName = "1.0.0"
 
             buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
@@ -130,7 +130,7 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // Kotlin
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.1")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
     // App compat & design
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("com.google.android.material:material:1.3.0")
@@ -176,12 +176,13 @@ dependencies {
     implementation("com.google.android.gms:play-services-ads:19.7.0")
     // Hilt
     implementation("com.google.dagger:hilt-android:2.41")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
+    implementation("io.github.hoc081098:FlowExt-jvm:0.4.0")
     kapt("com.google.dagger:hilt-android-compiler:2.41")
     // Hilt ViewModel
     implementation(hilt_view_model)
     //arrow
     implementation("io.arrow-kt:arrow-core:$arrow_version")
-    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2")
 }
 apply {
     plugin("com.google.gms.google-services")

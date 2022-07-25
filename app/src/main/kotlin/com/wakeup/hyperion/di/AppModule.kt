@@ -1,5 +1,6 @@
 package com.wakeup.hyperion.di
 
+import InterstitialAdManager
 import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.FieldNamingPolicy
@@ -46,11 +47,14 @@ object AppModule {
     fun provideSharedPrefsApi(app: Application): SharedPrefs {
         return SharedPrefsImpl(app)
     }
+
     @OptIn(ExperimentalTime::class)
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun timeSource(): TimeSource = TimeSource.Monotonic
 
-    @Provides @Singleton
-    fun activity() : AppCompatActivity = AppCompatActivity()
+    @Provides
+    @Singleton
+    fun activity(): AppCompatActivity = AppCompatActivity()
 }
 

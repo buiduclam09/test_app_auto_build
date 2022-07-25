@@ -2,6 +2,7 @@ package com.wakeup.hyperion.app
 
 import android.app.Application
 import com.google.android.gms.ads.MobileAds
+import com.google.firebase.FirebaseApp
 import com.wakeup.hyperion.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -24,6 +25,7 @@ class App : Application() {
     private fun initAds(){
         // Initialize the Mobile Ads SDK.
         MobileAds.initialize(this) {}
+        FirebaseApp.initializeApp(this)
     }
 
     private fun configTimber() {
@@ -31,4 +33,5 @@ class App : Application() {
             Timber.plant(Timber.DebugTree())
         }
     }
+
 }

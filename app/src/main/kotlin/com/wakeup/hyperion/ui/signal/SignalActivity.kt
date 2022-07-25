@@ -1,5 +1,6 @@
 package com.wakeup.hyperion.ui.signal
 
+import InterstitialAdManager
 import android.content.Intent
 import android.view.LayoutInflater
 import com.thuanpx.ktext.boolean.isTrue
@@ -16,6 +17,8 @@ import com.wakeup.hyperion.utils.extension.clicks
 import com.wakeup.hyperion.utils.extension.setStatusBarColor
 import com.wakeup.hyperion.dialogManager.DialogAlert
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
 /**
  * Copyright © 2021 Neolab VN.
@@ -25,7 +28,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignalActivity :
     BaseActivity<SignalViewModel, FragmentSignalBinding>(SignalViewModel::class) {
-
     private val isUpdateSignal: Boolean?
         get() = intent?.getBundleExtra("ktext_extra_args")?.getBoolean(EXTRA_IS_UPDATE, false)
     private val isUpdateLanguage: Boolean

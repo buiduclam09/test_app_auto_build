@@ -1,5 +1,6 @@
 package com.wakeup.hyperion.ui.turnOff
 
+import InterstitialAdManager
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
@@ -21,6 +22,8 @@ import com.wakeup.hyperion.ui.main.MainActivity
 import com.wakeup.hyperion.ui.main.MainService
 import com.wakeup.hyperion.utils.extension.setStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
 /**
  * Copyright © 2021 Neolab VN.
@@ -31,7 +34,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class TurnOffActivity :
     BaseActivity<TurnOffViewModel, ActivityTurnOffBinding>(TurnOffViewModel::class) {
 
-    private var interstitialAd: InterstitialAd? = null
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
     private var mediaPlayer: MediaPlayer? = null
 
     override fun inflateViewBinding(inflater: LayoutInflater): ActivityTurnOffBinding {
@@ -44,31 +49,10 @@ class TurnOffActivity :
     }
 
     override fun initialize() {
-        val adRequest = AdRequest.Builder().build()
+        interstitialAdManager.load()
+        interstitialAdManager.show {
 
-//        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest, object : InterstitialAdLoadCallback() {
-//            override fun onAdFailedToLoad(adError: LoadAdError) {
-//                interstitialAd = null
-//            }
-//
-//            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-//                this@TurnOffActivity.interstitialAd = interstitialAd
-//                this@TurnOffActivity.interstitialAd?.show(this@TurnOffActivity)
-//            }
-//        })
-//        interstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
-//            override fun onAdDismissedFullScreenContent() {
-//            }
-//
-//            override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
-//            }
-//
-//            override fun onAdShowedFullScreenContent() {
-//                interstitialAd = null
-//            }
-//        }
-        viewModel.showAds()
-
+        }
         stopService(Intent(this, MainService::class.java))
         startSound()
         val signalModel = viewModel.signalLocalModel ?: SignalLocalModel(

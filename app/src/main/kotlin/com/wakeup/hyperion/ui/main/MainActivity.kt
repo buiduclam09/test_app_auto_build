@@ -1,5 +1,6 @@
 package com.wakeup.hyperion.ui.main
 
+import InterstitialAdManager
 import android.Manifest
 import android.content.Intent
 import android.os.Handler
@@ -20,12 +21,18 @@ import com.wakeup.hyperion.utils.extension.setStatusBarColor
 import com.wakeup.hyperion.utils.extension.setupWithNavController
 import com.wakeup.hyperion.dialogManager.DialogAlert
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(MainViewModel::class) {
     private var currentNavController: LiveData<NavController>? = null
     private var settingsContentObserver: SettingsContentObserver? = null
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -64,8 +71,12 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(MainViewMo
         super.onDestroy()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun initialize() {
-        viewModel.showAds()
+        interstitialAdManager.load()
+        interstitialAdManager.show {
+
+        }
         requestPermission.launch(
             arrayOf(
                 Manifest.permission.RECORD_AUDIO,

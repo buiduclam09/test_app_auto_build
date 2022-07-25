@@ -1,5 +1,8 @@
 package com.wakeup.hyperion.ui.signal.changeSound.childTab
 
+import InterstitialAdManager
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Handler
@@ -16,20 +19,21 @@ import com.wakeup.hyperion.common.Constant
 import com.wakeup.hyperion.common.base.BaseFragment
 import com.wakeup.hyperion.databinding.FragmentBasicSoundBinding
 import com.wakeup.hyperion.model.entity.SignalLocalModel
+import com.wakeup.hyperion.ui.main.MainActivity
 import com.wakeup.hyperion.ui.main.MainService
 import com.wakeup.hyperion.ui.main.MainViewModel
 import com.wakeup.hyperion.ui.signal.SignalViewModel
 import com.wakeup.hyperion.ui.signal.changeSound.adapter.BasicSoundAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class BasicSoundFragment :
     BaseFragment<SignalViewModel, FragmentBasicSoundBinding>(SignalViewModel::class) {
 
     private val sharedViewModel by activityViewModels<MainViewModel>()
-
     private lateinit var basicSoundAdapter: BasicSoundAdapter
     private var mediaPlayer: MediaPlayer? = null
 
@@ -46,7 +50,6 @@ class BasicSoundFragment :
     }
 
     override fun initialize() {
-        viewModel.showAds()
         initAdapter()
     }
 
@@ -61,6 +64,7 @@ class BasicSoundFragment :
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initAdapter() {
         basicSoundAdapter =
             BasicSoundAdapter() { type: String, signalLocalModel: SignalLocalModel ->

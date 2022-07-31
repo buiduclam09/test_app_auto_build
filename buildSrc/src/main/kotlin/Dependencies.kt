@@ -6,13 +6,13 @@ import Versions.arrow_version
  * Versions in project
  */
 object Versions {
-    const val kotlin = "1.5.0"
-    const val android_gradle_plugin = "4.0.0"
+    const val kotlin = "1.6.21"
+    const val android_gradle_plugin = "7.2.1"
 
-    const val compile_sdk_version = 30
-    const val build_tools_version = "30.0.2"
+    const val compile_sdk_version = 32
+    const val build_tools_version = "32.0.0"
     const val min_sdk_version = 26
-    const val target_sdk_version = 30
+    const val target_sdk_version = 32
 
     const val appcompat = "1.1.0"
     const val core_ktx = "1.1.0"
@@ -132,7 +132,6 @@ object Dependencies {
 
     const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
     const val hilt_compiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
-    const val hilt_view_model = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_view_model}"
     const val hilt_androidx_compiler = "androidx.hilt:hilt-compiler:${Versions.hilt_view_model}"
     const val arrow_core = "io.arrow-kt:arrow-core:$arrow_version"
     const val arrow_implement = "io.arrow-kt:arrow-syntax:$arrow_version"

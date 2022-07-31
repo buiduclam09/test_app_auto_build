@@ -1,10 +1,7 @@
-import Dependencies.arrow_core
-import Dependencies.arrow_implement
-import Dependencies.arrow_meta
-import Dependencies.hilt_view_model
 import Versions.arrow_version
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Properties
 
 plugins {
     id("com.android.application")
@@ -132,14 +129,14 @@ dependencies {
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21")
     // App compat & design
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.3.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("com.google.android.material:material:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     //support library
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -155,15 +152,15 @@ dependencies {
     // Timber
     implementation("com.jakewharton.timber:timber:4.7.1")
     // KTX
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.fragment:fragment-ktx:1.3.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0")
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.fragment:fragment-ktx:1.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
     implementation("com.github.ThuanPx:KtExt:1.1.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.3")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.3")
-    implementation("androidx.activity:activity-ktx:1.3.0-alpha03")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.1")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.1")
+    implementation("androidx.activity:activity-ktx:1.6.0-alpha05")
     //add firebase
     implementation(platform("com.google.firebase:firebase-bom:28.3.1"))
     implementation("com.google.firebase:firebase-firestore-ktx")
@@ -175,12 +172,10 @@ dependencies {
     implementation("ua.zabelnikiov:swipeLayout:1.0")
     implementation("com.google.android.gms:play-services-ads:19.7.0")
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.41")
+    implementation("com.google.dagger:hilt-android:2.43")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
     implementation("io.github.hoc081098:FlowExt-jvm:0.4.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.41")
-    // Hilt ViewModel
-    implementation(hilt_view_model)
+    kapt("com.google.dagger:hilt-android-compiler:2.43")
     //arrow
     implementation("io.arrow-kt:arrow-core:$arrow_version")
 }

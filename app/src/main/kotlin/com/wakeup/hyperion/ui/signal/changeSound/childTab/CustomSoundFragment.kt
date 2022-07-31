@@ -1,6 +1,5 @@
 package com.wakeup.hyperion.ui.signal.changeSound.childTab
 
-import InterstitialAdManager
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle

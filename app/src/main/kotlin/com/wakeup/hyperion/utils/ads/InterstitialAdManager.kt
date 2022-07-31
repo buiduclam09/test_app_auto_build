@@ -1,3 +1,5 @@
+package com.wakeup.hyperion.utils.ads
+
 import android.app.Activity
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity

@@ -1,6 +1,5 @@
 package com.wakeup.hyperion.ui.signal
 
-import InterstitialAdManager
 import android.content.Intent
 import android.view.LayoutInflater
 import com.thuanpx.ktext.boolean.isTrue

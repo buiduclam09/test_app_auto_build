@@ -3,7 +3,6 @@ package com.wakeup.hyperion.ui.signal
 import com.wakeup.hyperion.common.base.BaseViewModel
 import com.wakeup.hyperion.data.repository.SharedPrefsRepository
 import com.wakeup.hyperion.model.entity.SignalLocalModel
-import com.wakeup.hyperion.utils.ads.InterstitialAdsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject

@@ -1,6 +1,5 @@
 package com.wakeup.hyperion.ui.main
 
-import InterstitialAdManager
 import android.Manifest
 import android.content.Intent
 import android.os.Handler
@@ -20,6 +19,7 @@ import com.wakeup.hyperion.utils.FileUtils.getRealPathFromURI
 import com.wakeup.hyperion.utils.extension.setStatusBarColor
 import com.wakeup.hyperion.utils.extension.setupWithNavController
 import com.wakeup.hyperion.dialogManager.DialogAlert
+import com.wakeup.hyperion.utils.ads.InterstitialAdManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch

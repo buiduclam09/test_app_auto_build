@@ -1,6 +1,5 @@
 package com.wakeup.hyperion.di
 
-import InterstitialAdManager
 import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.FieldNamingPolicy

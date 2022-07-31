@@ -1,6 +1,5 @@
 package com.wakeup.hyperion.ui.turnOff
 
-import InterstitialAdManager
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
@@ -20,6 +19,7 @@ import com.wakeup.hyperion.databinding.ActivityTurnOffBinding
 import com.wakeup.hyperion.model.entity.SignalLocalModel
 import com.wakeup.hyperion.ui.main.MainActivity
 import com.wakeup.hyperion.ui.main.MainService
+import com.wakeup.hyperion.utils.ads.InterstitialAdManager
 import com.wakeup.hyperion.utils.extension.setStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi

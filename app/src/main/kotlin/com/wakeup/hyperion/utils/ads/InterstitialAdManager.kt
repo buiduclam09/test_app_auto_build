@@ -1,6 +1,7 @@
 package com.wakeup.hyperion.utils.ads
 
 import android.app.Activity
+import android.content.Context
 import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +18,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.hoc081098.flowext.flatMapFirst
 import com.hoc081098.flowext.retryWhenWithExponentialBackoff
 import com.hoc081098.flowext.takeUntil
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -62,7 +64,8 @@ private typealias LoadAdErrorOrInterstitialAd = Either<LoadAdError, Interstitial
 @ActivityScoped
 class InterstitialAdManager @Inject constructor(
     private val activity: AppCompatActivity,
-    private val timeSource: TimeSource
+    private val timeSource: TimeSource,
+    @ApplicationContext private val appContext: Context,
 ) {
     private val scope = activity.lifecycleScope
     private val loadAdActionSharedFlow = MutableSharedFlow<AdAction>(extraBufferCapacity = 1)
@@ -84,7 +87,7 @@ class InterstitialAdManager @Inject constructor(
                     ) { cause, attempt ->
                         Timber
                             .tag(LOG_TAG)
-                            .d("interstitialAdStateFlow: loadAdInternal: retry attempt=$attempt, cause=$cause")
+                            .e(cause,"interstitialAdStateFlow: loadAdInternal: retry attempt=$attempt, cause=$cause")
                         attempt < MAX_RETRIES && cause is LoadAdErrorException
                     }
                     .map {
@@ -109,7 +112,7 @@ class InterstitialAdManager @Inject constructor(
     private suspend fun loadAdInternal() =
         suspendCancellableCoroutine<LoadAdErrorOrInterstitialAd> { cont ->
             InterstitialAd.load(
-                activity,
+                appContext,
                 INTERSTITIAL_AD_UNIT_ID,
                 AdRequest.Builder().build(),
                 object : InterstitialAdLoadCallback() {

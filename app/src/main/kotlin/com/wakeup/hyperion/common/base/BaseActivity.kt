@@ -31,9 +31,11 @@ abstract class BaseActivity<viewModel : BaseViewModel, viewBinding : ViewBinding
     AppCompatActivity(), BaseView {
 
     protected val viewModel by ViewModelLazy(
-        viewModelClass,
-        { viewModelStore },
-        { defaultViewModelProviderFactory })
+        viewModelClass = viewModelClass,
+        storeProducer = { viewModelStore },
+        factoryProducer = { defaultViewModelProviderFactory },
+        extrasProducer = { defaultViewModelCreationExtras }
+    )
     protected lateinit var viewBinding: viewBinding
     abstract fun inflateViewBinding(inflater: LayoutInflater): viewBinding
 

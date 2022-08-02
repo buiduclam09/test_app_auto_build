@@ -151,6 +151,7 @@ dependencies {
     // debugImplementation("com.squareup.leakcanary:leakcanary-android:2.0")
     // Timber
     implementation("com.jakewharton.timber:timber:4.7.1")
+    implementation("androidx.work:work-runtime:2.7.1")
     // KTX
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.fragment:fragment-ktx:1.5.1")
@@ -162,7 +163,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.5.1")
     implementation("androidx.activity:activity-ktx:1.6.0-alpha05")
     //add firebase
-    implementation(platform("com.google.firebase:firebase-bom:28.3.1"))
+    implementation(platform("com.google.firebase:firebase-bom:30.0.1"))
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
     implementation("com.google.firebase:firebase-analytics-ktx")
@@ -170,7 +171,8 @@ dependencies {
     implementation("com.airbnb.android:lottie:3.3.1")
     implementation("com.jaredrummler:material-spinner:1.3.1")
     implementation("ua.zabelnikiov:swipeLayout:1.0")
-    implementation("com.google.android.gms:play-services-ads:19.7.0")
+    implementation("com.google.android.gms:play-services-ads:21.1.0")
+    implementation("com.google.android.gms:play-services-basement:18.1.0")
     // Hilt
     implementation("com.google.dagger:hilt-android:2.43")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")

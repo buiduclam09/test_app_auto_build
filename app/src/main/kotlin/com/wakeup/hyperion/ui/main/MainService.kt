@@ -62,7 +62,7 @@ class MainService : Service() {
             this,
             0,
             Intent(this, MainActivity::class.java),
-            0
+            PendingIntent.FLAG_IMMUTABLE
         )
 
         val notification = NotificationCompat.Builder(

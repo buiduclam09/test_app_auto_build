@@ -24,9 +24,12 @@ import com.wakeup.hyperion.ui.webview.WebViewActivity
 import com.wakeup.hyperion.utils.LanguageSettings.ENGLISH
 import com.wakeup.hyperion.utils.LanguageSettings.FRENCH
 import com.wakeup.hyperion.utils.LanguageSettings.setLocale
+import com.wakeup.hyperion.utils.ads.InterstitialAdManager
 import com.wakeup.hyperion.utils.extension.clicks
 import com.wakeup.hyperion.utils.extension.goTo
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
 
 /**
@@ -39,7 +42,9 @@ class SettingFragment :
 
     private val sharedViewModel by activityViewModels<MainViewModel>()
     private val listLanguage = arrayListOf("English", "French")
-
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
     override fun inflateViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -48,6 +53,8 @@ class SettingFragment :
     }
 
     override fun initialize() {
+        interstitialAdManager.load()
+        interstitialAdManager.show {  }
         viewBinding.run {
             toolbar.ivBack.hide()
             toolbar.tvTitle.text = getString(R.string.setting)

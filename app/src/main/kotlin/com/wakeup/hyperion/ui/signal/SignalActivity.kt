@@ -1,6 +1,7 @@
 package com.wakeup.hyperion.ui.signal
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import com.thuanpx.ktext.boolean.isTrue
 import com.thuanpx.ktext.context.startActivityAtRoot
@@ -15,6 +16,7 @@ import com.wakeup.hyperion.ui.main.MainService
 import com.wakeup.hyperion.utils.extension.clicks
 import com.wakeup.hyperion.utils.extension.setStatusBarColor
 import com.wakeup.hyperion.dialogManager.DialogAlert
+import com.wakeup.hyperion.utils.ads.InterstitialAdManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -32,8 +34,17 @@ class SignalActivity :
     private val isUpdateLanguage: Boolean
         get() = intent.getBooleanExtra("EXTRA_IS_UPDATE_LANGUAGE", false)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Inject
+    lateinit var interstitialAdManager: InterstitialAdManager
+
     override fun inflateViewBinding(inflater: LayoutInflater): FragmentSignalBinding {
         return FragmentSignalBinding.inflate(inflater)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        interstitialAdManager.load()
     }
 
     override fun initialize() {
@@ -87,6 +98,7 @@ class SignalActivity :
                         })
                 }
             }
+            interstitialAdManager.show {  }
         }
     }
 }

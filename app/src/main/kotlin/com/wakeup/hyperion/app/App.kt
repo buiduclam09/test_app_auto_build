@@ -19,12 +19,11 @@ class App : Application() {
         super.onCreate()
         configTimber()
         initAds()
-
     }
 
     private fun initAds(){
         // Initialize the Mobile Ads SDK.
-        MobileAds.initialize(this) {}
+        MobileAds.initialize(this)
         FirebaseApp.initializeApp(this)
     }
 

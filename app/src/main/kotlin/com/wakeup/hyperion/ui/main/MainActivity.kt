@@ -73,10 +73,6 @@ class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(MainViewMo
 
     @OptIn(ExperimentalCoroutinesApi::class)
     override fun initialize() {
-        interstitialAdManager.load()
-        interstitialAdManager.show {
-
-        }
         requestPermission.launch(
             arrayOf(
                 Manifest.permission.RECORD_AUDIO,

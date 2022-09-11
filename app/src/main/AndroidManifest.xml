@@ -61,6 +61,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.INTEGRATION_MANAGER"
             android:value="webview"/>
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true"/>
     </application>
 
 </manifest>

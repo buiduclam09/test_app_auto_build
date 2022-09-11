@@ -6,12 +6,16 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import android.view.LayoutInflater
-import com.google.android.gms.ads.*
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.thuanpx.ktext.context.startActivityAtRoot
 import com.thuanpx.ktext.string.toIntOrZero
+import com.wakeup.hyperion.BuildConfig
 import com.wakeup.hyperion.R
 import com.wakeup.hyperion.common.Constant
 import com.wakeup.hyperion.common.base.BaseActivity
@@ -19,25 +23,20 @@ import com.wakeup.hyperion.databinding.ActivityTurnOffBinding
 import com.wakeup.hyperion.model.entity.SignalLocalModel
 import com.wakeup.hyperion.ui.main.MainActivity
 import com.wakeup.hyperion.ui.main.MainService
-import com.wakeup.hyperion.utils.ads.InterstitialAdManager
 import com.wakeup.hyperion.utils.extension.setStatusBarColor
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import javax.inject.Inject
+import kotlin.time.Duration.Companion.minutes
 
 /**
  * Copyright © 2021 Neolab VN.
- * Created by ThuanPx on 3/9/21.
  */
 
 @AndroidEntryPoint
 class TurnOffActivity :
     BaseActivity<TurnOffViewModel, ActivityTurnOffBinding>(TurnOffViewModel::class) {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Inject
-    lateinit var interstitialAdManager: InterstitialAdManager
     private var mediaPlayer: MediaPlayer? = null
+    private var interstitialAd: InterstitialAd? = null
 
     override fun inflateViewBinding(inflater: LayoutInflater): ActivityTurnOffBinding {
         return ActivityTurnOffBinding.inflate(inflater)
@@ -49,10 +48,34 @@ class TurnOffActivity :
     }
 
     override fun initialize() {
-        interstitialAdManager.load()
-        interstitialAdManager.show {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(
+            this,
+            BuildConfig.INTERSTITIAL_AD_UNIT_ID,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    interstitialAd = null
+                }
 
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    this@TurnOffActivity.interstitialAd = interstitialAd
+                    this@TurnOffActivity.interstitialAd?.show(this@TurnOffActivity)
+                }
+            })
+        interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+            }
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                interstitialAd = null
+            }
         }
+
+
         stopService(Intent(this, MainService::class.java))
         startSound()
         val signalModel = viewModel.signalLocalModel ?: SignalLocalModel(

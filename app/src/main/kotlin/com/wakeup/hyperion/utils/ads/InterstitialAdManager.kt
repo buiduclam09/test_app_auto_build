@@ -17,6 +17,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.hoc081098.flowext.flatMapFirst
 import com.hoc081098.flowext.retryWhenWithExponentialBackoff
 import com.hoc081098.flowext.takeUntil
+import com.wakeup.hyperion.BuildConfig
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
@@ -112,7 +113,7 @@ class InterstitialAdManager @Inject constructor(
         suspendCancellableCoroutine<LoadAdErrorOrInterstitialAd> { cont ->
             InterstitialAd.load(
                 appContext,
-                INTERSTITIAL_AD_UNIT_ID,
+                BuildConfig.INTERSTITIAL_AD_UNIT_ID,
                 AdRequest.Builder().build(),
                 object : InterstitialAdLoadCallback() {
                     override fun onAdFailedToLoad(error: LoadAdError) = cont.resume(error.left())
@@ -194,7 +195,7 @@ class InterstitialAdManager @Inject constructor(
         loadAdActionSharedFlow.emit(AdAction.Load)
     }
 
-    private companion object {
+    companion object {
         private fun Flow<LoadAdErrorOrInterstitialAd>.log() =
             onStart {
                 Timber
@@ -208,7 +209,7 @@ class InterstitialAdManager @Inject constructor(
                 }
 
         private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712"
-        private const val LOG_TAG = "InterstitialAdManager"
+        const val LOG_TAG = "InterstitialAdManager"
         private const val MAX_RETRIES = 3
 
         private val WAITING_TIMEOUT_DURATION = 5.seconds

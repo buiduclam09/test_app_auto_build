@@ -46,16 +46,33 @@ android {
             versionName = "1.0.0"
 
             buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
-            buildConfigField("String", "INTERSTITIAL_AD_UNIT_ID", "\"ca-app-pub-3940256099942544/1033173712\"")
-            buildConfigField("String", "BANNER_AD_UNIT_ID", "\"ca-app-pub-3940256099942544/6300978111\"")
+            buildConfigField(
+                "String",
+                "INTERSTITIAL_AD_UNIT_ID",
+                "\"ca-app-pub-3940256099942544/1033173712\""
+            )
+            buildConfigField(
+                "String",
+                "BANNER_AD_UNIT_ID",
+                "\"ca-app-pub-3940256099942544/6300978111\""
+            )
         }
 
         create("PROD") {
-            versionCode = 5
-            versionName = "1.0.0"
+            versionCode = 7
+            versionName = "1.0.2"
 
             buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
-            buildConfigField("String", "INTERSTITIAL_AD_UNIT_ID", "\"ca-app-pub-7926716557588074/4967328324\"")
+            buildConfigField(
+                "String",
+                "INTERSTITIAL_AD_UNIT_ID",
+                "\"ca-app-pub-7926716557588074/4967328324\""
+            )
+            buildConfigField(
+                "String",
+                "BANNER_AD_UNIT_ID",
+                "\"ca-app-pub-7926716557588074/3574495220\""
+            )
         }
     }
 

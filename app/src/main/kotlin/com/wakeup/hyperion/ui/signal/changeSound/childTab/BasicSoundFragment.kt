@@ -11,8 +11,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.thuanpx.ktext.boolean.isNotTrue
 import com.thuanpx.ktext.boolean.isTrue
+import com.wakeup.hyperion.BuildConfig
 import com.wakeup.hyperion.R
 import com.wakeup.hyperion.common.Constant
 import com.wakeup.hyperion.common.base.BaseFragment
@@ -35,6 +42,7 @@ class BasicSoundFragment :
     private val sharedViewModel by activityViewModels<MainViewModel>()
     private lateinit var basicSoundAdapter: BasicSoundAdapter
     private var mediaPlayer: MediaPlayer? = null
+    private var interstitialAd: InterstitialAd? = null
 
     companion object {
         fun newInstance() =
@@ -50,6 +58,9 @@ class BasicSoundFragment :
 
     override fun initialize() {
         initAdapter()
+        if (!viewModel.isShowBasicTab) {
+            showAds()
+        }
     }
 
     override fun onSubscribeObserver() {
@@ -182,5 +193,35 @@ class BasicSoundFragment :
         )
         listSound.add(SignalLocalModel(true, "MBB Island", R.raw.mbb_island.toString(), false))
         return listSound
+    }
+
+    private fun showAds() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(
+            requireContext(),
+            BuildConfig.INTERSTITIAL_AD_UNIT_ID,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    interstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    viewModel.isShowBasicTab = true
+                    this@BasicSoundFragment.interstitialAd = interstitialAd
+                    this@BasicSoundFragment.interstitialAd?.show(requireActivity())
+                }
+            })
+        interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+            }
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                interstitialAd = null
+            }
+        }
     }
 }

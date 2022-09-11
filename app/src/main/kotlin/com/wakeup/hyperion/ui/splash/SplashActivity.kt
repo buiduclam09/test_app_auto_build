@@ -1,5 +1,6 @@
 package com.wakeup.hyperion.ui.splash
 
+import android.content.Intent
 import android.view.LayoutInflater
 import androidx.lifecycle.lifecycleScope
 import com.thuanpx.ktext.context.startActivityAtRoot
@@ -8,6 +9,7 @@ import com.wakeup.hyperion.common.base.BaseActivity
 import com.wakeup.hyperion.databinding.SplashActivityBinding
 import com.wakeup.hyperion.ui.introduce.IntroduceActivity
 import com.wakeup.hyperion.ui.main.MainActivity
+import com.wakeup.hyperion.ui.turnOff.TurnOffActivity
 import com.wakeup.hyperion.utils.LanguageSettings.ENGLISH
 import com.wakeup.hyperion.utils.LanguageSettings.FRENCH
 import com.wakeup.hyperion.utils.LanguageSettings.setLocale
@@ -45,4 +47,6 @@ class SplashActivity :
             }
         }
     }
+
+
 }

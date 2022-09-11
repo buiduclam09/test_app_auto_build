@@ -24,15 +24,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.TimeSource
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>(MainViewModel::class) {
     private var currentNavController: LiveData<NavController>? = null
     private var settingsContentObserver: SettingsContentObserver? = null
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Inject
-    lateinit var interstitialAdManager: InterstitialAdManager
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->

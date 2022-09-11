@@ -11,10 +11,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.thuanpx.ktext.boolean.isNotTrue
 import com.thuanpx.ktext.boolean.isTrue
 import com.thuanpx.ktext.view.gone
 import com.thuanpx.ktext.view.show
+import com.wakeup.hyperion.BuildConfig
 import com.wakeup.hyperion.R
 import com.wakeup.hyperion.common.Constant
 import com.wakeup.hyperion.common.Constant.TYPE_DELETE
@@ -31,9 +38,13 @@ import com.wakeup.hyperion.utils.ResourcesManager
 import com.wakeup.hyperion.utils.extension.clicks
 import com.wakeup.hyperion.dialogManager.DialogAlert
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,7 +54,7 @@ class CustomSoundFragment :
     private var customSoundAdapter: CustomSoundAdapter? = null
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
-
+    private var interstitialAd: InterstitialAd? = null
 
     companion object {
         fun newInstance() = CustomSoundFragment()
@@ -56,8 +67,8 @@ class CustomSoundFragment :
     ): FragmentCustomSoundBinding {
         return FragmentCustomSoundBinding.inflate(inflater, container, false)
     }
-    override fun initialize() {
 
+    override fun initialize() {
         initAdapter()
         handleOnclick()
     }
@@ -120,6 +131,39 @@ class CustomSoundFragment :
             adapter = customSoundAdapter
         }
         checkSignalSelected()
+        if (!viewModel.isShowCusTomTab) {
+            showAds()
+        }
+    }
+
+    private fun showAds() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(
+            requireContext(),
+            BuildConfig.INTERSTITIAL_AD_UNIT_ID,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    interstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    viewModel.isShowCusTomTab = true
+                    this@CustomSoundFragment.interstitialAd = interstitialAd
+                    this@CustomSoundFragment.interstitialAd?.show(requireActivity())
+                }
+            })
+        interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+            }
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                interstitialAd = null
+            }
+        }
     }
 
     private fun checkSignalSelected() {

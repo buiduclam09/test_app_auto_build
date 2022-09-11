@@ -3,9 +3,16 @@ package com.wakeup.hyperion.ui.signal
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.thuanpx.ktext.boolean.isTrue
 import com.thuanpx.ktext.context.startActivityAtRoot
 import com.thuanpx.ktext.view.gone
+import com.wakeup.hyperion.BuildConfig
 import com.wakeup.hyperion.R
 import com.wakeup.hyperion.common.Constant
 import com.wakeup.hyperion.common.Constant.EXTRA_IS_UPDATE
@@ -23,7 +30,6 @@ import javax.inject.Inject
 
 /**
  * Copyright © 2021 Neolab VN.
- * Created by ThuanPx on 3/1/21.
  */
 
 @AndroidEntryPoint
@@ -33,18 +39,13 @@ class SignalActivity :
         get() = intent?.getBundleExtra("ktext_extra_args")?.getBoolean(EXTRA_IS_UPDATE, false)
     private val isUpdateLanguage: Boolean
         get() = intent.getBooleanExtra("EXTRA_IS_UPDATE_LANGUAGE", false)
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @Inject
-    lateinit var interstitialAdManager: InterstitialAdManager
-
+    private var interstitialAd: InterstitialAd? = null
     override fun inflateViewBinding(inflater: LayoutInflater): FragmentSignalBinding {
         return FragmentSignalBinding.inflate(inflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        interstitialAdManager.load()
     }
 
     override fun initialize() {
@@ -89,6 +90,9 @@ class SignalActivity :
                             }
                         })
                 } else {
+                    if (!viewModel.isShowCreateSignal) {
+                        showAds()
+                    }
                     showAlertDialog(
                         message = getString(R.string.create_signal_success),
                         listener = object : DialogAlert.Companion.OnButtonClickedListener {
@@ -98,7 +102,36 @@ class SignalActivity :
                         })
                 }
             }
-            interstitialAdManager.show {  }
+        }
+    }
+
+    private fun showAds() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(
+            this,
+            BuildConfig.INTERSTITIAL_AD_UNIT_ID,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    interstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    viewModel.isShowCreateSignal = true
+                    this@SignalActivity.interstitialAd = interstitialAd
+                    this@SignalActivity.interstitialAd?.show(this@SignalActivity)
+                }
+            })
+        interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+            }
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                interstitialAd = null
+            }
         }
     }
 }

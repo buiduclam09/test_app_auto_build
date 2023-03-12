@@ -29,8 +29,8 @@ android {
         applicationId = "com.pixelteam.whereisit"
         minSdkVersion(Versions.min_sdk_version)
         targetSdkVersion(Versions.target_sdk_version)
-        versionCode = 3
-        versionName = "1.0.2"
+        versionCode = 10
+        versionName = "1.0.3"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         setProperty(
@@ -59,8 +59,8 @@ android {
         }
 
         create("PROD") {
-            versionCode = 7
-            versionName = "1.0.2"
+            versionCode = 10
+            versionName = "1.0.3"
 
             buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
             buildConfigField(

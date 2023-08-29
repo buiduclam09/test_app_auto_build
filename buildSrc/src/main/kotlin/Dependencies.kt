@@ -9,10 +9,10 @@ object Versions {
     const val kotlin = "1.6.21"
     const val android_gradle_plugin = "7.2.1"
 
-    const val compile_sdk_version = 32
+    const val compile_sdk_version = 33
     const val build_tools_version = "32.0.0"
     const val min_sdk_version = 26
-    const val target_sdk_version = 32
+    const val target_sdk_version = 33
 
     const val appcompat = "1.1.0"
     const val core_ktx = "1.1.0"

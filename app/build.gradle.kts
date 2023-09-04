@@ -30,7 +30,7 @@ android {
         minSdkVersion(Versions.min_sdk_version)
         targetSdkVersion(Versions.target_sdk_version)
         versionCode = 10
-        versionName = "1.0.3"
+        versionName = "1.0.4"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         setProperty(
@@ -43,7 +43,7 @@ android {
         create("DEV") {
             applicationIdSuffix = ".dev"
             versionCode = 1
-            versionName = "1.0.0"
+            versionName = "1.0.4"
 
             buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
             buildConfigField(
@@ -60,7 +60,7 @@ android {
 
         create("PROD") {
             versionCode = 10
-            versionName = "1.0.3"
+            versionName = "1.0.4"
 
             buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
             buildConfigField(
@@ -188,8 +188,8 @@ dependencies {
     implementation("com.airbnb.android:lottie:3.3.1")
     implementation("com.jaredrummler:material-spinner:1.3.1")
     implementation("ua.zabelnikiov:swipeLayout:1.0")
-    implementation("com.google.android.gms:play-services-ads:21.1.0")
-    implementation("com.google.android.gms:play-services-basement:18.1.0")
+    implementation("com.google.android.gms:play-services-ads:22.3.0")
+    implementation("com.google.android.gms:play-services-basement:18.2.0")
     // Hilt
     implementation("com.google.dagger:hilt-android:2.43")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")

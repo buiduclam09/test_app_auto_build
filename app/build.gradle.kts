@@ -60,7 +60,7 @@ android {
 
         create("PROD") {
             versionCode = 10
-            versionName = "1.0.4"
+            versionName = "1.0.5"
 
             buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
             buildConfigField(
